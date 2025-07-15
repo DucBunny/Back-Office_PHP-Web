@@ -22,9 +22,14 @@
                     <div class="fs-2 text-center mb-3">Login</div>
                     <form action="{{ route('postLogin') }}" method="POST">
                         @csrf
-                        <div style="background-color: #ffffff" class="px-3 pt-3 border">
+                        <div style="background-color: #ffffff" class="px-3 pt-3 border rounded-3 shadow-sm">
                             <div class="mb-4">
-                                <label for="login_id" class="form-label">Login ID</label>
+                                <div class="d-flex align-items-center mb-2 gap-4">
+                                    <label for="login_id" class="form-label m-0">Login ID</label>
+                                    <span class="badge rounded-pill fw-medium"
+                                        style="background-color: #11c48a">必須</span>
+                                </div>
+
                                 <input type="text" name="login_id" class="form-control" id="login_id"
                                     value="{{ old('login_id') }}">
                                 @error('login_id')
@@ -33,7 +38,12 @@
                             </div>
 
                             <div style="padding-bottom: 2.5rem">
-                                <label for="password" class="form-label">Password</label>
+                                <div class="d-flex align-items-center mb-2 gap-4">
+                                    <label for="password" class="form-label m-0">Password</label>
+                                    <span class="badge rounded-pill fw-medium"
+                                        style="background-color: #11c48a">必須</span>
+                                </div>
+
                                 <input type="password" name="password" class="form-control" id="password">
                                 @error('password')
                                     <div class="text-danger">{{ $message }}</div>

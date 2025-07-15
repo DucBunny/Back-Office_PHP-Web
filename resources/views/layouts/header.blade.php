@@ -4,17 +4,17 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link text-white me-2" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         xxxx@xxxx.co.jp
+                        <i class="bi bi-chevron-down small"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="{{ route('login') }}">Logout</a></li>
                     </ul>
                 </li>
             </ul>
