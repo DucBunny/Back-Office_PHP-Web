@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_salon', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('salon_id');
-            $table->primary(['user_id', 'salon_id']);
+        Schema::create('customer_consent', function (Blueprint $table) {
+            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('consent_id');
+            $table->primary(['customer_id', 'consent_id']);
+            $table->datetime('agreed_at');
 
             $table->timestamps();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('salon_id')->references('id')->on('salons')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('consent_id')->references('id')->on('consents')->onDelete('cascade');
             $table->foreign('updated_by')->references('id')->on('users');
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_salon');
+        Schema::dropIfExists('customer_consent');
     }
 };

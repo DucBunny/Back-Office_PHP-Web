@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('consents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
             $table->boolean('status')->default(false);
             $table->date('date');
+
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->softDeletes();
+
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

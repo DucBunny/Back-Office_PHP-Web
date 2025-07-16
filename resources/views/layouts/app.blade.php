@@ -36,6 +36,38 @@
             top: 56px;
             min-height: calc(100vh - 56px);
         }
+
+        /* Input time */
+        input[type="time"] {
+            cursor: pointer;
+        }
+
+        /* Ẩn icon đồng hồ mặc định của browser khi focus */
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            position: absolute;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* Checkbox */
+        .form-check-input:checked {
+            background-color: #11c48a;
+            border-color: #11c48a;
+        }
+
+        .form-check-input:hover {
+            cursor: pointer;
+        }
+
+        .form-check-input:focus,
+        .form-control:focus,
+        input[type="time"]:hover {
+            border-color: #11c48a;
+            box-shadow: 0 0 0 0.2rem rgba(6, 194, 104, 0.25);
+        }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"

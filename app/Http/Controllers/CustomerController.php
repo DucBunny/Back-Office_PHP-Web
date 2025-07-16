@@ -26,12 +26,12 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
     }
 
-    public function edit($id)
+    public function edit()
     {
         // Fetch the customer by ID and return the edit view
         // ...
 
-        return view('customers.edit', compact('customer'));
+        return view('customers.edit');
     }
 
     public function update(Request $request, $id)

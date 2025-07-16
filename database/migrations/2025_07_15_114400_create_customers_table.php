@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('gender')->nullable();
+            $table->string('gender')->notNullable()->comment('male / female / other');
             $table->integer('age')->nullable();
             $table->string('category')->nullable();
             $table->integer('point')->default(0);
+            $table->text('notes', 1000)->nullable();
+
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->softDeletes();
+
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

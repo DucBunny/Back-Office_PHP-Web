@@ -26,7 +26,6 @@ class UserFactory extends Factory
             'login_id' => fake()->unique()->userName(),
             'name' => fake()->name(),
             'password' => static::$password ??= Hash::make('password'),
-            'store' => fake()->randomElement(['A', 'B', 'C', 'D']),
             'role' => fake()->randomElement(['admin', 'manager', 'staff']),
             'code' => fake()->optional()->bothify('##??##'),
         ];
@@ -49,6 +48,16 @@ class UserFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'role' => 'manager',
+        ]);
+    }
+
+    /**
+     * Indicate that the user should be a staff.
+     */
+    public function staff(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'role' => 'staff',
         ]);
     }
 }

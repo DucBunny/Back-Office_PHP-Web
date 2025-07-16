@@ -4,14 +4,14 @@
 @section('content')
     <div>Tiêu đề</div>
     <form class="mt-3 ">
-        <div class="container p-3 bg-white rounded-4 border border-2">
+        <div class="p-3 bg-white rounded-4 border border-2">
             <div class="form-group col-md-4 mb-3">
-                <label for="inputEmail4">ID thành viên</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                <label for="customer_id">ID thành viên</label>
+                <input type="text" class="form-control" name="customer_id" id="customer_id">
             </div>
 
             <div class="form-group mb-3">
-                <label for="inputEmail4">Giới tính</label>
+                <label for="gender">Giới tính</label>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-group mb-3">
-                <label for="inputEmail4">Độ tuổi</label>
+                <label for="age">Độ tuổi</label>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
@@ -55,11 +55,15 @@
                         <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
                         <label class="form-check-label" for="inlineCheckbox3">60</label>
                     </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox3">Khác</label>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group mb-3">
-                <label for="inputEmail4">Loại hình sử dụng</label>
+                <label for="category">Loại hình sử dụng</label>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
@@ -76,8 +80,8 @@
                 </div>
             </div>
 
-            <div class="form-row col-md-6 mb-3">
-                <label class="form-label">Số lần đã đến</label>
+            <div class="form-row mb-3">
+                <label for="times_number">Số lần đã đến</label>
                 <div class="d-flex align-items-center gap-2">
                     <div class="col-md-1 ">
                         <input type="number" class="form-control form-control-sm" />
@@ -91,7 +95,7 @@
 
             <div class="form-group mb-3">
                 <div class="form-row d-flex align-items-center gap-3">
-                    <label class="form-label m-0">Cửa hàng đã đến thăm</label>
+                    <label class="m-0">Cửa hàng đã đến thăm</label>
                     <div class="dropdown col-md-9">
                         <button class="btn btn-sm text-white dropdown-toggle-no-icon col-md-3" type="button"
                             id="storeDropdown" data-bs-toggle="dropdown" aria-expanded="false"
@@ -121,17 +125,21 @@
             <div class="form-row mb-3">
                 <label class="form-label">Thời gian đã đến</label>
                 <div class="d-flex align-items-center gap-2">
-                    <div class="cs-form col-md-4">
+                    <div class="cs-form col-md-4 position-relative">
                         <input type="time" class="form-control form-control-sm text-center" />
+                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted"
+                            style="pointer-events: none"></i>
                     </div>
                     <span>~</span>
-                    <div class="cs-form col-md-4">
+                    <div class="cs-form col-md-4 position-relative">
                         <input type="time" class="form-control form-control-sm text-center" />
+                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted"
+                            style="pointer-events: none"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="form-row mb-2">
+            <div class="form-row mb-2 d-flex justify-content-end gap-3">
                 <button type="submit" style="background-color: #11c48a" class="btn text-white border border-0">Tìm
                     kiếm</button>
                 <button type="submit" style="background-color: #11c48a" class="btn text-white border border-0">Tải
@@ -141,11 +149,62 @@
                 <button type="submit" style="background-color: #e6f9f3"
                     class="btn border text-success border-success-subtle">Xóa
                     điều kiện</button>
-                <button type="submit" style="background-color: #06c268" class="btn text-white border border-0">Xuất phân
-                    đoạn</button>
+                <button type="submit" style="background-color: #06c268; margin-left: 10rem"
+                    class="btn text-white border border-0">Xuất phân đoạn</button>
             </div>
         </div>
     </form>
+
+    <div class="mt-4 bg-white">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="col-2">ID thành viên</th>
+                    <th scope="col" class="col-3">Cửa hàng đã thăm gần nhất</th>
+                    <th scope="col" class="col-3">Ngày tới gần nhất</th>
+                    <th scope="col" class="col-4"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row" class="align-middle">
+                        XXXXXX
+                    </td>
+                    <td class="align-middle">
+                        AAA
+                    </td>
+                    <td class="align-middle">
+                        24/05/2025
+                    </td>
+                    <td class="d-flex justify-content-center gap-2">
+                        <button class="col-3 btn btn-sm fw-bold ">Duyệt</button>
+                        <button class="col-3 btn btn-sm fw-bold text-danger"
+                            style="background-color: #f2aa84">Xóa</button>
+                        <button class="col-4 btn btn-sm fw-bold text-white"
+                            style="background-color: #06c268">Điểm</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td scope="row" class="align-middle">
+                        XXXXXX
+                    </td>
+                    <td class="align-middle">
+                        AAA
+                    </td>
+                    <td class="align-middle">
+                        24/05/2025
+                    </td>
+                    <td class="d-flex justify-content-center gap-2">
+                        <button class="col-3 btn btn-sm fw-bold ">Duyệt</button>
+                        <button class="col-3 btn btn-sm fw-bold text-danger"
+                            style="background-color: #f2aa84">Xóa</button>
+                        <button class="col-4 btn btn-sm fw-bold text-white"
+                            style="background-color: #06c268">Điểm</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 @endsection
 
 @section('styles')
@@ -162,9 +221,10 @@
             color: white;
             padding: 3px 8px;
             margin: 2px;
-            border-radius: 15px;
+            border-radius: 10px;
             font-size: 12px;
             position: relative;
+            align-items: middle;
         }
 
         .selected-tag .remove-tag {
@@ -226,7 +286,7 @@
                             const text = option.textContent;
                             html += `<span class="selected-tag">
                                         ${text}
-                                        <span class="remove-tag" data-value="${value}">x</span>
+                                        <span class="remove-tag" data-value="${value}"><i class="bi bi-x"></i></span>
                                     </span>`;
                         }
                     });

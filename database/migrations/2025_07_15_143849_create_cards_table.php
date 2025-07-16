@@ -13,16 +13,21 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('staff_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('salon_id')->constrained('salons')->onDelete('cascade');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->boolean('cut')->default(false);
-            $table->boolean('color')->default(false);
+            $table->boolean('is_cut')->default(false);
+            $table->boolean('is_color')->default(false);
             $table->text('color_note', 200)->nullable();
-            $table->boolean('perm')->default(false);
+            $table->boolean('is_perm')->default(false);
             $table->text('perm_note', 200)->nullable();
             $table->text('memo', 1000)->nullable();
             $table->integer('point')->default(0);
+
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->softDeletes();
+
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 

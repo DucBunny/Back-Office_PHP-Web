@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('point_history', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->date('date_visited')->nullable();
-            $table->string('store_visited')->nullable();
-            $table->text('note', 1000)->nullable();
+            $table->integer('change');
+            $table->string('type')->comment('Đến cửa hàng / Đổi sản phẩm / Cộng điểm thủ công');
             $table->timestamps();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->softDeletes();
+            
+            $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('point_history');
     }
 };
