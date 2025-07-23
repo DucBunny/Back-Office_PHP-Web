@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->integer('change');
-            $table->string('type')->comment('Đến cửa hàng / Đổi sản phẩm / Cộng điểm thủ công');
+            $table->string('type')->comment('Đến cửa hàng / Thay đổi thủ công');
             $table->timestamps();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
-            
+
             $table->foreign('updated_by')->references('id')->on('users');
         });
     }

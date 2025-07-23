@@ -1,47 +1,50 @@
 <div class="sidebar text-white position-fixed" style="width: 250px; height: 100vh; top: 56px; left: 0; z-index: 1000;">
     <div class="d-flex flex-column ">
-        <ul class="nav nav-pills flex-column mb-auto ">
-            <li class="nav-item p-1">
-                <a href="{{ route('home') }}" class="nav-link text-black p-3 px-4">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="border-bottom nav-item px-1 py-2">
+                <a href="{{ route('home') }}" class="nav-link text-black px-3 py-2">
                     <span class="fs-5">Home</span>
                 </a>
             </li>
-            <li class="nav-item p-1" style="background-color: #11c48a">
+
+            <li class="border-bottom nav-item px-1 py-2" style="background-color: #11c48a">
                 <span class="nav-link text-white ps-2 disabled">Quản lý khách hàng</span>
             </li>
-            <li class="nav-item p-1">
-                <a href="#submenu1"
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5"
-                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu1">
-                    <span>Quản lý</span>
+
+            <li class="border-bottom nav-item px-1 py-2">
+                <a href="{{ route('customers.index') }}" {{-- href="#submenu1" --}} {{-- data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu1"> --}}
+                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
+                    <span>Quản lý khách hàng</span>
                     <i class="bi bi-chevron-right transition-icon transition-icon"></i>
                 </a>
-                <ul class="collapse nav" id="submenu1" data-bs-parent="#menu">
+                {{-- <ul class="collapse nav" id="submenu1" data-bs-parent="#menu">
                     <li class="w-100">
-                        <a href="{{ route('customer.index') }}" class="nav-link text-black" style="padding-left: 5rem;">
+                        <a href="{{ route('customers.index') }}" class="nav-link text-black"
+                            style="padding-left: 5rem;">
                             <span class="d-none d-sm-inline">Danh sách</span>
                         </a>
                     </li>
                     <li class="w-100">
-                        <a href="{{ route('customer.edit') }}" class="nav-link text-black" style="padding-left: 5rem;">
+                        <a href="{{ route('customers.index') }}" class="nav-link text-black"
+                            style="padding-left: 5rem;">
                             <span class="d-none d-sm-inline">Thêm mới</span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
-            <li class="nav-item p-1" style="background-color: #11c48a">
-                <a href="#" class="nav-link text-white ps-2 disabled">
-                    <span>Cài đặt</span>
-                </a>
+
+            <li class="border-bottom nav-item px-1 py-2" style="background-color: #11c48a">
+                <span class="nav-link text-white ps-2 disabled">Cài đặt</span>
             </li>
-            <li class="nav-item p-1">
-                <a href="#submenu2"
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5"
-                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu2">
+
+            <li class="border-bottom nav-item px-1 py-2">
+                <a href="{{ route('salons.index') }}" {{-- href="#submenu2" data-bs-toggle="collapse" aria-expanded="false"
+                    aria-controls="submenu2" --}}
+                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
                     <span>Quản lý cửa hàng</span>
                     <i class="bi bi-chevron-right transition-icon"></i>
                 </a>
-                <ul class="collapse nav" id="submenu2" data-bs-parent="#menu">
+                {{-- <ul class="collapse nav" id="submenu2" data-bs-parent="#menu">
                     <li class="w-100">
                         <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
                             <span class="d-none d-sm-inline">Danh sách</span>
@@ -52,16 +55,16 @@
                             <span class="d-none d-sm-inline">Thêm mới</span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
-            <li class="nav-item p-1">
-                <a href="#submenu3"
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5"
-                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu3">
+
+            <li class="border-bottom nav-item px-1 py-2">
+                <a href="{{ route('users.index') }}" {{-- href="#submenu3" data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu3" --}}
+                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
                     <span>Quản lý tài khoản</span>
                     <i class="bi bi-chevron-right transition-icon"></i>
                 </a>
-                <ul class="collapse nav" id="submenu3" data-bs-parent="#menu">
+                {{-- <ul class="collapse nav" id="submenu3" data-bs-parent="#menu">
                     <li class="w-100">
                         <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
                             <span class="d-none d-sm-inline">Danh sách</span>
@@ -72,16 +75,16 @@
                             <span class="d-none d-sm-inline">Thêm mới</span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
-            <li class="nav-item p-1">
-                <a href="#submenu4"
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5"
-                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu4">
-                    <span>Quản lý bản cam kết</span>
+
+            <li class="border-bottom nav-item px-1 py-2">
+                <a href="{{ route('consents.index') }}" {{-- href="#submenu4" data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu4" --}}
+                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
+                    <span>Quản lý thỏa thuận</span>
                     <i class="bi bi-chevron-right transition-icon"></i>
                 </a>
-                <ul class="collapse nav" id="submenu4" data-bs-parent="#menu">
+                {{-- <ul class="collapse nav" id="submenu4" data-bs-parent="#menu">
                     <li class="w-100">
                         <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
                             <span class="d-none d-sm-inline">Danh sách</span>
@@ -92,7 +95,7 @@
                             <span class="d-none d-sm-inline">Thêm mới</span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
         </ul>
     </div>
@@ -105,11 +108,11 @@
     }
 
     /* Hiệu ứng hover cho nav-link */
-    .nav-link {
+    .nav-item {
         transition: all 0.2s ease;
     }
 
-    .nav-link:hover {
+    .nav-item:hover {
         background-color: rgba(17, 196, 138, 0.1);
     }
 </style>

@@ -23,6 +23,10 @@ class CardSeeder extends Seeder
             if ($is_color) $point += $faker->numberBetween(8, 15);
             if ($is_perm) $point += $faker->numberBetween(10, 20);
 
+            $createdAt = $faker->dateTimeBetween('-1 year', 'now');
+            // visit_date là một ngày trước hoặc trùng với created_at
+            $visitDate = $faker->dateTimeBetween('-2 years', $createdAt);
+
             $cards[] = [
                 'salon_id' => $faker->numberBetween(1, 5),
                 'customer_id' => $faker->numberBetween(1, 50),
@@ -34,8 +38,9 @@ class CardSeeder extends Seeder
                 'memo' => $faker->optional(0.6)->realText(300),
                 'point' => $point,
                 'updated_by' => $faker->numberBetween(1, 11),
-                'created_at' => $faker->dateTimeBetween('-1 year', 'now'),
+                'created_at' => $createdAt,
                 'updated_at' => now(),
+                'visit_date' => $visitDate,
             ];
         }
 

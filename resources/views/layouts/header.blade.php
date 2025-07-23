@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #11c48a">
     <div class="container-fluid">
-        <a class="navbar-brand text-white fw-medium" href="#">PLAGE ミニアプリ</a>
+        <p class="m-0 navbar-brand text-white fw-semibold">PLAGE ミニアプリ</p>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">

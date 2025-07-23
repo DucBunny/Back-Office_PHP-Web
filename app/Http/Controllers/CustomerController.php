@@ -2,23 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Card;
+use App\Models\Salon;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    //
-
     public function index()
     {
-        return view('customers.index');
+        $customers = Customer::whereHas('cards', function ($query) {
+            $query->active();
+        })->get();
+
+        // Sort customers by last visit date in descending order
+        $customers = $customers->sortByDesc(function ($customer) {
+            return $customer->last_visit_date ? $customer->last_visit_date->timestamp : 0;
+        })->values();
+
+        return view('customers.index', [
+            'customers' => $customers,
+        ]);
     }
 
-    public function create()
+    public function createCard($id)
     {
-        return view('customers.create');
+        $customer = Customer::findOrFail($id);
+
+        return view('cards.create', [
+            'customer' => $customer
+        ]);
     }
 
-    public function store(Request $request)
+    public function storeCard(Request $request)
     {
         // Validate and store the customer data
         // ...
@@ -26,15 +43,18 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
     }
 
-    public function edit()
+    public function edit($id)
     {
-        // Fetch the customer by ID and return the edit view
-        // ...
+        $customer = Customer::findOrFail($id);
+        $cards = Card::where('customer_id', $id)->get();
 
-        return view('customers.edit');
+        return view('customers.edit', [
+            'customer' => $customer,
+            'cards' => $cards,
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update($id)
     {
         // Validate and update the customer data
         // ...
@@ -42,11 +62,48 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
     }
 
-    public function destroy($id)
+    public function points($id)
     {
-        // Delete the customer by ID
+        $customer = Customer::findOrFail($id);
+        $cards = Card::where('customer_id', $id)->get();
+
+        return view('customers.points', [
+            'customer' => $customer,
+            'cards' => $cards,
+        ]);
+    }
+
+    public function addPoints(Request $request)
+    {
+        // Validate and add points to the customer
         // ...
 
-        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+        return redirect()->route('customers.index')->with('success', 'Points added successfully.');
+    }
+
+    public function editCard($id)
+    {
+        $card = Card::findOrFail($id);
+        $customer = Customer::findOrFail($card->customer_id);
+        return view('cards.edit', [
+            'card' => $card,
+            'customer' => $customer,
+        ]);
+    }
+
+    public function updateCard(Request $request, $id)
+    {
+        // Validate and update the card data
+        // ...
+
+        return redirect()->route('customers.index')->with('success', 'Card updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $customer = Customer::findOrFail($id);
+        Card::where('customer_id', $id)->where('visit_date', $customer->last_visit_date)->delete();
+
+        return redirect()->route('customers.index');
     }
 }

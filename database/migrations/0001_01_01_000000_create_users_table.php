@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('role')->comment('admin / manager / staff');
             $table->string('device_code', 5)->nullable();
 
-            $table->timestamps();
+            $table->timestamps(); // Created at and Updated at
             $table->unsignedBigInteger('updated_by')->nullable();
-            $table->softDeletes();
+            $table->softDeletes(); // Deleted at
 
             $table->foreign('updated_by')->references('id')->on('users');
         });

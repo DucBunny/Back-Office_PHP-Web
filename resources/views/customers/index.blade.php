@@ -2,104 +2,117 @@
 @section('title', 'Customer Index')
 
 @section('content')
-    <div>Tiêu đề</div>
-    <form class="mt-3 ">
+    <div class="fs-5">
+        <span class="fw-semibold">Quản lý khách hàng</span>
+        /
+        <span class="fw-light">Danh sách</span>
+    </div>
+
+    {{-- Search Form --}}
+    <form class="mt-3">
         <div class="p-3 bg-white rounded-4 border border-2">
             <div class="form-group col-md-4 mb-3">
-                <label for="customer_id">ID thành viên</label>
+                <label for="customer_id" class="form-label">ID thành viên</label>
                 <input type="text" class="form-control" name="customer_id" id="customer_id">
             </div>
 
             <div class="form-group mb-3">
-                <label for="gender">Giới tính</label>
+                <p class="form-label">Giới tính</p>
                 <div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">Nam</label>
+                        <input class="form-check-input" type="checkbox" id="male" value="male">
+                        <label class="form-check-label" for="male">Nam</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">Nữ</label>
+                        <input class="form-check-input" type="checkbox" id="female" value="female">
+                        <label class="form-check-label" for="female">Nữ</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox3">Chưa phản hồi</label>
+                        <input class="form-check-input" type="checkbox" id="other" value="other">
+                        <label class="form-check-label" for="other">Chưa phản hồi</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group mb-3">
-                <label for="age">Độ tuổi</label>
+                <p class="form-label">Độ tuổi</p>
                 <div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">10</label>
+                        <input class="form-check-input" type="checkbox" id="age10" value="10">
+                        <label class="form-check-label" for="age10">10</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">20</label>
+                        <input class="form-check-input" type="checkbox" id="age20" value="20">
+                        <label class="form-check-label" for="age20">20</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox3">30</label>
+                        <input class="form-check-input" type="checkbox" id="age30" value="30">
+                        <label class="form-check-label" for="age30">30</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">40</label>
+                        <input class="form-check-input" type="checkbox" id="age40" value="40">
+                        <label class="form-check-label" for="age40">40</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">50</label>
+                        <input class="form-check-input" type="checkbox" id="age50" value="50">
+                        <label class="form-check-label" for="age50">50</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox3">60</label>
+                        <input class="form-check-input" type="checkbox" id="age60" value="60">
+                        <label class="form-check-label" for="age60">60</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox3">Khác</label>
+                        <input class="form-check-input" type="checkbox" id="age70" value="70">
+                        <label class="form-check-label" for="age70">70</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="age80" value="80">
+                        <label class="form-check-label" for="age80">80+</label>
                     </div>
                 </div>
             </div>
 
             <div class="form-group mb-3">
-                <label for="category">Loại hình sử dụng</label>
+                <p class="form-label">Loại hình sử dụng</p>
                 <div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">Cắt</label>
+                        <input class="form-check-input" type="checkbox" id="isCut" value="isCut">
+                        <label class="form-check-label" for="isCut">Cắt</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">Nhuộm</label>
+                        <input class="form-check-input" type="checkbox" id="isColor" value="isColor">
+                        <label class="form-check-label" for="isColor">Nhuộm</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox3">Uốn</label>
+                        <input class="form-check-input" type="checkbox" id="isPerm" value="isPerm">
+                        <label class="form-check-label" for="isPerm">Uốn</label>
                     </div>
                 </div>
             </div>
 
-            <div class="form-row mb-3">
-                <label for="times_number">Số lần đã đến</label>
+            <div class="form-group mb-3">
+                <p class="form-label">Số lần đã đến</p>
                 <div class="d-flex align-items-center gap-2">
                     <div class="col-md-1 ">
-                        <input type="number" class="form-control form-control-sm" />
+                        <input type="number" class="form-control" id="min" min="0" />
                     </div>
-                    <span>~</span>
+                    <span>&#x2053;</span>
                     <div class="col-md-1">
-                        <input type="number" class="form-control form-control-sm" />
+                        <input type="number" class="form-control" id="max" min="0" />
                     </div>
                 </div>
             </div>
 
             <div class="form-group mb-3">
                 <div class="form-row d-flex align-items-center gap-3">
-                    <label class="m-0">Cửa hàng đã đến thăm</label>
+                    <p class="form-label m-0">Cửa hàng đã đến thăm</p>
                     <div class="dropdown col-md-9">
-                        <button class="btn btn-sm text-white dropdown-toggle-no-icon col-md-3" type="button"
-                            id="storeDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                            style="background-color: #06c268; ">
+                        {{-- <button class="btn text-white dropdown-toggle-no-icon col-md-3" type="button" id="storeDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #06c268; ">
+                            Chọn
+                        </button> --}}
+                        <button class="btn text-white col-md-3 btn-custom-06c268" type="button" id="salonModal"
+                            data-bs-toggle="modal" data-bs-target="#salonModal">
                             Chọn
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="storeDropdown">
@@ -122,41 +135,44 @@
                 </p>
             </div>
 
-            <div class="form-row mb-3">
-                <label class="form-label">Thời gian đã đến</label>
+            <div class="form-group mb-3">
+                <p class="form-label">Thời gian đã đến</p>
                 <div class="d-flex align-items-center gap-2">
-                    <div class="cs-form col-md-4 position-relative">
-                        <input type="time" class="form-control form-control-sm text-center" />
-                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted"
+                    <div class="px-0 col-md-3 position-relative" id="datepicker-start-container">
+                        <input type="text" class="form-control" id="datepicker-start" style="padding-left: 30px"
+                            placeholder="DD/MM/YYYY" />
+                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted z-3"
                             style="pointer-events: none"></i>
                     </div>
-                    <span>~</span>
-                    <div class="cs-form col-md-4 position-relative">
-                        <input type="time" class="form-control form-control-sm text-center" />
-                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted"
+                    <span>&#x2053;</span>
+                    <div class="px-0 col-md-3 position-relative" id="datepicker-end-container">
+                        <input type="text" class="form-control" id="datepicker-end" style="padding-left: 30px"
+                            placeholder="DD/MM/YYYY" />
+                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted z-3"
                             style="pointer-events: none"></i>
                     </div>
                 </div>
             </div>
 
+            {{-- Action Buttons --}}
             <div class="form-row mb-2 d-flex justify-content-end gap-3">
-                <button type="submit" style="background-color: #11c48a" class="btn text-white border border-0">Tìm
+                <button type="submit" class="btn text-white btn-custom-11c48a">Tìm
                     kiếm</button>
-                <button type="submit" style="background-color: #11c48a" class="btn text-white border border-0">Tải
+                <button type="submit" class="btn text-white btn-custom-11c48a">Tải
                     CSV</button>
-                <button type="submit" style="background-color: #06c268" class="btn text-white border border-0">Tải lịch
+                <button type="submit" class="btn text-white btn-custom-06c268">Tải lịch
                     sử điểm</button>
-                <button type="submit" style="background-color: #e6f9f3"
-                    class="btn border text-success border-success-subtle">Xóa
+                <button type="submit" class="btn text-success btn-outline-success btn-custom-e6f9f3">Xóa
                     điều kiện</button>
-                <button type="submit" style="background-color: #06c268; margin-left: 10rem"
-                    class="btn text-white border border-0">Xuất phân đoạn</button>
+                <button type="submit" class="btn text-white btn-custom-06c268" style="margin-left: 10rem">Xuất
+                    phân đoạn</button>
             </div>
         </div>
     </form>
 
-    <div class="mt-4 bg-white">
-        <table class="table">
+    {{-- Results Table --}}
+    <div class="mt-4">
+        <table class="table bg-white">
             <thead>
                 <tr>
                     <th scope="col" class="col-2">ID thành viên</th>
@@ -166,53 +182,82 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td scope="row" class="align-middle">
-                        XXXXXX
-                    </td>
-                    <td class="align-middle">
-                        AAA
-                    </td>
-                    <td class="align-middle">
-                        24/05/2025
-                    </td>
-                    <td class="d-flex justify-content-center gap-2">
-                        <button class="col-3 btn btn-sm fw-bold ">Duyệt</button>
-                        <button class="col-3 btn btn-sm fw-bold text-danger"
-                            style="background-color: #f2aa84">Xóa</button>
-                        <button class="col-4 btn btn-sm fw-bold text-white"
-                            style="background-color: #06c268">Điểm</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td scope="row" class="align-middle">
-                        XXXXXX
-                    </td>
-                    <td class="align-middle">
-                        AAA
-                    </td>
-                    <td class="align-middle">
-                        24/05/2025
-                    </td>
-                    <td class="d-flex justify-content-center gap-2">
-                        <button class="col-3 btn btn-sm fw-bold ">Duyệt</button>
-                        <button class="col-3 btn btn-sm fw-bold text-danger"
-                            style="background-color: #f2aa84">Xóa</button>
-                        <button class="col-4 btn btn-sm fw-bold text-white"
-                            style="background-color: #06c268">Điểm</button>
-                    </td>
-                </tr>
+                @php
+                    $perPage = 10;
+                    $total = count($customers);
+                    $page = request()->get('page', 1);
+                    $start = ($page - 1) * $perPage;
+                    $end = min($start + $perPage, $total);
+                @endphp
+                @for ($i = $start; $i < $end; $i++)
+                    @php $customer = $customers[$i]; @endphp
+                    <tr>
+                        <td scope="row" class="align-middle">
+                            {{ $customer->id }}
+                        </td>
+                        <td class="align-middle">
+                            {{ $customer->last_salon }}
+                        </td>
+                        <td class="align-middle">
+                            {{ $customer->last_visit_date ? $customer->last_visit_date->format('d/m/Y') : '' }}
+                        </td>
+                        <td class="d-flex justify-content-end gap-2">
+                            {{-- Edit --}}
+                            <a href="{{ route('customers.edit', $customer->id) }}"
+                                class="col-3 btn btn-sm fw-bold border btn-custom-white">Duyệt</a>
+
+                            {{-- Delete --}}
+                            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" class="col-3"
+                                name="deleteForm">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="button"
+                                    class="btn btn-sm fw-bold text-danger w-100 btn-delete btn-custom-f2aa84"
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</button>
+                            </form>
+
+                            {{-- Points --}}
+                            <a href="{{ route('customers.points', $customer->id) }}"
+                                class="col-4 btn btn-sm fw-bold text-white btn-custom-06c268">Điểm</a>
+                        </td>
+                    </tr>
+                @endfor
             </tbody>
         </table>
+
+        {{-- Pagination --}}
+        <div class="d-flex justify-content-center my-3 gap-2">
+            @php $totalPages = ceil($total / $perPage); @endphp
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item @if ($page == 1) disabled @endif">
+                        <a class="page-link" href="?page={{ max(1, $page - 1) }}" aria-label="Previous">
+                            <span aria-hidden="true" class="text-muted">&lsaquo;</span>
+                        </a>
+                    </li>
+                    @for ($p = 1; $p <= $totalPages; $p++)
+                        <li class="page-item  @if ($p == $page) active @endif">
+                            <a class="page-link text-muted" href="?page={{ $p }}">{{ $p }}</a>
+                        </li>
+                    @endfor
+                    <li class="page-item @if ($page == $totalPages) disabled @endif">
+                        <a class="page-link" href="?page={{ min($totalPages, $page + 1) }}" aria-label="Next">
+                            <span aria-hidden="true" class="text-muted">&rsaquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 @endsection
 
-@section('styles')
+{{-- @section('styles')
     <style>
         /* Ẩn icon dropdown arrow */
-        .dropdown-toggle-no-icon::after {
-            display: none !important;
-        }
+        /* .dropdown-toggle-no-icon::after {
+                                                                                                                        display: none !important;
+                                                                                                                    } */
 
         /* Style cho các tag được chọn */
         .selected-tag {
@@ -243,10 +288,65 @@
             color: #06c268 !important;
         }
     </style>
-@endsection
+@endsection --}}
 
 @section('scripts')
-    <script>
+    <script type="module">
+        const pickerStart = new TempusDominus(document.getElementById('datepicker-start'), {
+            display: {
+                theme: 'light',
+                toolbarPlacement: 'top',
+                icons: {
+                    type: 'icons',
+                    time: 'bi bi-clock',
+                    date: 'fa-regular fa-calendar',
+                    up: 'fa-solid fa-chevron-up',
+                    down: 'fa-solid fa-chevron-down',
+                },
+                components: {
+                    clock: false,
+                },
+            },
+            localization: {
+                locale: 'vi',
+                format: 'dd/MM/yyyy'
+            },
+            restrictions: {
+                minDate: new Date(1900, 0, 1),
+                maxDate: new Date()
+            },
+            useCurrent: false,
+            container: document.getElementById('datepicker-start-container')
+        });
+
+        const pickerEnd = new TempusDominus(document.getElementById('datepicker-end'), {
+            display: {
+                theme: 'light',
+                toolbarPlacement: 'top',
+                icons: {
+                    type: 'icons',
+                    time: 'bi bi-clock',
+                    date: 'fa-regular fa-calendar',
+                    up: 'fa-solid fa-chevron-up',
+                    down: 'fa-solid fa-chevron-down',
+                },
+                components: {
+                    clock: false,
+                },
+            },
+            localization: {
+                locale: 'vi',
+                format: 'dd/MM/yyyy'
+            },
+            restrictions: {
+                minDate: new Date(1900, 0, 1),
+                maxDate: new Date()
+            },
+            useCurrent: false,
+            container: document.getElementById('datepicker-end-container')
+        });
+
+        // Xử lý sự kiện click cho các item trong dropdown
         document.addEventListener('DOMContentLoaded', function() {
             const selectedStores = new Set();
             const selectedStoresElement = document.getElementById('selectedStores');

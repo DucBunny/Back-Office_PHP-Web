@@ -1,3 +1,5 @@
+@vite('resources/js/app.js')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +55,7 @@
 
                         <div class="text-end mt-3 w-100">
                             <button type="submit" style="background-color: #11c48a; width: 5rem"
-                                class="btn text-white border border-0">Login</button>
+                                class="btn text-white btn-custom-11c48a">Login</button>
                         </div>
                     </form>
                 </div>

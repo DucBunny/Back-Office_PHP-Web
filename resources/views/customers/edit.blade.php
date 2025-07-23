@@ -2,311 +2,141 @@
 @section('title', 'Customer Edit')
 
 @section('content')
-    <div>Tiêu đề</div>
-    <form class="mt-3 ">
-        <div class="p-3 bg-white rounded-4 border border-2">
-            <div class="form-group col-md-4 mb-3">
-                <label for="customer_id">ID thành viên</label>
-                <p class="ps-3">XXXXXX</p>
+    <div class="fs-5">
+        <span class="fw-semibold">Quản lý khách hàng</span>
+        /
+        <span class="fw-light">Chỉnh sửa</span>
+    </div>
+
+    <form class="mt-3" method="POST" action="{{ route('customers.update', $customer->id) }}">
+        {{-- CSRF Token and Method --}}
+        @csrf
+        @method('PUT')
+
+        <div class="p-4 bg-white rounded-4 border border-2">
+            <div class="form-group mb-3">
+                <p class="form-label">ID thành viên</p>
+                <p class="ps-3">{{ $customer->id }}</p>
             </div>
 
             <div class="form-group mb-3">
-                <label for="gender">Giới tính</label>
+                <label class="form-label" for="yearPicker">Năm sinh</label>
+                <div class="px-0 col-md-3" id="yearpicker-container">
+                    <input type="text" class="form-control" id="yearpicker" placeholder="YYYY"
+                        value="{{ now()->year - $customer->age }}" />
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <p class="form-label">Giới tính</p>
                 <div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">Nam</label>
+                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1" value="male"
+                            {{ $customer->gender === 'male' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioDefault1">Nam</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">Nữ</label>
+                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" value="female"
+                            {{ $customer->gender === 'female' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioDefault2">Nữ</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox3">Chưa phản hồi</label>
+                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault3" value="other"
+                            {{ $customer->gender === 'other' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioDefault3">Chưa phản hồi</label>
                     </div>
                 </div>
             </div>
 
-            <div class="form-row mb-3">
-                <label class="form-label">Năm sinh</label>
-                <div class="col-md-2 position-relative">
-                    <input type="text" class="form-control form-control-sm text-center" id="yearPicker"
-                        style="cursor: pointer" placeholder="Chọn năm sinh" readonly />
-                    <i class="bi bi-chevron-down position-absolute top-50 translate-middle-y end-0 me-2 text-muted"
-                        style="pointer-events: none"></i>
-                </div>
-
-                <div class="year-dropdown" id="yearDropdown" style="display: none;">
-                    <div class="year-dropdown-header">
-                        <button type="button" class="year-nav-btn" id="yearPrev">&lt;</button>
-                        <span class="year-range" id="yearRange"></span>
-                        <button type="button" class="year-nav-btn" id="yearNext">&gt;</button>
-                    </div>
-                    <div class="year-grid" id="yearGrid"></div>
-                </div>
+            <div class="form-group">
+                <label for="notes" class="form-label">Yêu cầu & lưu ý</label>
+                <textarea class="form-control" id="notes" style="height: 80px; resize: none">{{ $customer->notes }}</textarea>
             </div>
+        </div>
 
-            <div class="form-group mb-3">
-                <label for="category">Loại hình sử dụng</label>
-                <div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">Cắt</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">Nhuộm</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                        <label class="form-check-label" for="inlineCheckbox3">Uốn</label>
-                    </div>
-                </div>
-            </div>
+        {{-- Create Card --}}
+        <div class="form-row mt-4 me-3 text-end">
+            <a href="{{ route('customers.createCard', $customer->id) }}" style="margin-left: 10rem"
+                class="btn text-white btn-custom-06c268">Đăng ký
+                mới</a>
+        </div>
 
-            <div class="form-row mb-3">
-                <label for="times_number">Số lần đã đến</label>
-                <div class="d-flex align-items-center gap-2">
-                    <div class="col-md-1 ">
-                        <input type="number" class="form-control form-control-sm" />
-                    </div>
-                    <span>~</span>
-                    <div class="col-md-1">
-                        <input type="number" class="form-control form-control-sm" />
-                    </div>
-                </div>
-            </div>
+        <div class="form-row fixed-bottom d-flex justify-content-center gap-3 p-4" style="margin-left: 250px">
+            {{-- Back --}}
+            <a href="{{ route('customers.index') }}"
+                class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay lại</a>
 
-            <div class="form-group mb-3">
-                <div class="form-row d-flex align-items-center gap-3">
-                    <label class="m-0">Cửa hàng đã đến thăm</label>
-                    <div class="dropdown col-md-9">
-                        <button class="btn btn-sm text-white dropdown-toggle-no-icon col-md-3" type="button"
-                            id="storeDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                            style="background-color: #06c268; ">
-                            Chọn
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="storeDropdown">
-                            <li><a class="dropdown-item store-option" href="#" data-value="store1">Cửa hàng A</a>
-                            </li>
-                            <li><a class="dropdown-item store-option" href="#" data-value="store2">Cửa hàng B</a>
-                            </li>
-                            <li><a class="dropdown-item store-option" href="#" data-value="store3">Cửa hàng C</a>
-                            </li>
-                            <li><a class="dropdown-item store-option" href="#" data-value="store4">Cửa hàng D</a>
-                            </li>
-                            <li><a class="dropdown-item store-option" href="#" data-value="store5">Cửa hàng E</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <p id="selectedStores" class="mt-2 ms-3">
-                    <span class="text-muted">Chưa chọn cửa hàng nào</span>
-                </p>
-            </div>
-
-            <div class="form-row mb-3">
-                <label class="form-label">Thời gian đã đến</label>
-                <div class="d-flex align-items-center gap-2">
-                    <div class="cs-form col-md-4 position-relative">
-                        <input type="time" class="form-control form-control-sm text-center" />
-                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted"
-                            style="pointer-events: none"></i>
-                    </div>
-                    <span>~</span>
-                    <div class="cs-form col-md-4 position-relative">
-                        <input type="time" class="form-control form-control-sm text-center" />
-                        <i class="bi bi-clock position-absolute top-50 translate-middle-y ms-2 text-muted"
-                            style="pointer-events: none"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row mb-2 d-flex justify-content-end gap-3">
-                <button type="submit" style="background-color: #11c48a" class="btn text-white border border-0">Tìm
-                    kiếm</button>
-                <button type="submit" style="background-color: #11c48a" class="btn text-white border border-0">Tải
-                    CSV</button>
-                <button type="submit" style="background-color: #06c268" class="btn text-white border border-0">Tải lịch
-                    sử điểm</button>
-                <button type="submit" style="background-color: #e6f9f3"
-                    class="btn border text-success border-success-subtle">Xóa
-                    điều kiện</button>
-                <button type="submit" style="background-color: #06c268; margin-left: 10rem"
-                    class="btn text-white border border-0">Xuất phân đoạn</button>
-            </div>
+            {{-- Update --}}
+            <button class="btn col-1 py-2 text-white btn-custom-11c48a" type="submit">Lưu</button>
         </div>
     </form>
 
-    <div class="mt-4 bg-white">
+    <div class="mt-3 bg-white">
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col" class="col-2">ID thành viên</th>
-                    <th scope="col" class="col-3">Cửa hàng đã thăm gần nhất</th>
-                    <th scope="col" class="col-3">Ngày tới gần nhất</th>
-                    <th scope="col" class="col-4"></th>
+                    <th scope="col" class="col-2">Thời gian</th>
+                    <th scope="col" class="col-2">Cửa hàng</th>
+                    <th scope="col" class="col-7">Nội dung</th>
+                    <th scope="col" class="col-1"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td scope="row" class="align-middle">
-                        XXXXXX
-                    </td>
-                    <td class="align-middle">
-                        AAA
-                    </td>
-                    <td class="align-middle">
-                        24/05/2025
-                    </td>
-                    <td class="d-flex justify-content-center gap-2">
-                        <button class="col-3 btn btn-sm fw-bold ">Duyệt</button>
-                        <button class="col-3 btn btn-sm fw-bold text-danger"
-                            style="background-color: #f2aa84">Xóa</button>
-                        <button class="col-4 btn btn-sm fw-bold text-white"
-                            style="background-color: #06c268">Điểm</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td scope="row" class="align-middle">
-                        XXXXXX
-                    </td>
-                    <td class="align-middle">
-                        AAA
-                    </td>
-                    <td class="align-middle">
-                        24/05/2025
-                    </td>
-                    <td class="d-flex justify-content-center gap-2">
-                        <button class="col-3 btn btn-sm fw-bold ">Duyệt</button>
-                        <button class="col-3 btn btn-sm fw-bold text-danger"
-                            style="background-color: #f2aa84">Xóa</button>
-                        <button class="col-4 btn btn-sm fw-bold text-white"
-                            style="background-color: #06c268">Điểm</button>
-                    </td>
-                </tr>
+                @php
+                    $perPage = 10;
+                    $total = count($cards);
+                    $page = request()->get('page', 1);
+                    $start = ($page - 1) * $perPage;
+                    $end = min($start + $perPage, $total);
+                @endphp
+                @for ($i = $start; $i < $end; $i++)
+                    @php $card = $cards[$i]; @endphp
+                    <tr>
+                        <td scope="row" class="align-middle">
+                            {{ $card->visit_date->format('d/m/Y H:i') }}
+                        </td>
+                        <td class="align-middle">
+                            {{ $card->salon->name }}
+                        </td>
+                        <td class="align-middle text-truncate" style="max-width: 200px;">
+                            {{ $card->memo }}
+                        </td>
+                        <td class="text-center">
+                            {{-- Edit --}}
+                            <a href="{{ route('customers.editCard', $card->id) }}"
+                                class="w-100 btn btn-sm fw-bold border btn-custom-white">Duyệt</a>
+                        </td>
+                    </tr>
+                @endfor
             </tbody>
         </table>
     </div>
+
+    <div class="d-flex justify-content-center my-3 gap-2 mb-5">
+        @php $totalPages = ceil($total / $perPage); @endphp
+        <nav>
+            <ul class="pagination">
+                <li class="page-item @if ($page == 1) disabled @endif">
+                    <a class="page-link" href="?page={{ max(1, $page - 1) }}" aria-label="Previous">
+                        <span aria-hidden="true" class="text-muted">&lsaquo;</span>
+                    </a>
+                </li>
+                @for ($p = 1; $p <= $totalPages; $p++)
+                    <li class="page-item  @if ($p == $page) active @endif">
+                        <a class="page-link text-muted" href="?page={{ $p }}">{{ $p }}</a>
+                    </li>
+                @endfor
+                <li class="page-item @if ($page == $totalPages) disabled @endif">
+                    <a class="page-link" href="?page={{ min($totalPages, $page + 1) }}" aria-label="Next">
+                        <span aria-hidden="true" class="text-muted">&rsaquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 @endsection
 
-@section('styles')
-    <style>
-        /* Ẩn icon dropdown arrow */
-        .dropdown-toggle-no-icon::after {
-            display: none !important;
-        }
-
-        /* Style cho các tag được chọn */
-        .selected-tag {
-            display: inline-block;
-            background-color: #06c268;
-            color: white;
-            padding: 3px 8px;
-            margin: 2px;
-            border-radius: 15px;
-            font-size: 12px;
-            position: relative;
-        }
-
-        .selected-tag .remove-tag {
-            margin-left: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .selected-tag .remove-tag:hover {
-            color: #ff6b6b;
-        }
-
-        /* Style cho dropdown item được chọn */
-        .dropdown-item.selected {
-            background-color: #e6f9f3 !important;
-            color: #06c268 !important;
-        }
-
-        /* Year Picker */
-        .year-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            z-index: 1000;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            width: 280px;
-            margin-top: 4px;
-        }
-
-        .year-dropdown-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid #eee;
-            background-color: #f8f9fa;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .year-nav-btn {
-            background: none;
-            border: none;
-            font-size: 18px;
-            font-weight: bold;
-            color: #06c268;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-
-        .year-nav-btn:hover {
-            background-color: #e6f9f3;
-        }
-
-        .year-range {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .year-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
-            padding: 12px;
-        }
-
-        .year-item {
-            padding: 8px 12px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s;
-            font-size: 14px;
-            border: 1px solid transparent;
-        }
-
-        .year-item:hover {
-            background-color: #e6f9f3;
-            border-color: #06c268;
-        }
-
-        .year-item.selected {
-            background-color: #06c268;
-            color: white;
-        }
-
-        .year-item.current-year {
-            border-color: #06c268;
-            font-weight: 600;
-        }
-    </style>
-@endsection
-
-@section('scripts')
+{{-- @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const selectedStores = new Set();
@@ -372,119 +202,39 @@
                 }
             }
         });
+    </script>
+@endsection --}}
 
-        // Year Picker Functionality
-        class YearPicker {
-            constructor() {
-                this.currentYear = new Date().getFullYear();
-                this.minYear = 1900;
-                this.maxYear = this.currentYear;
-                this.currentRange = Math.floor(this.currentYear / 20) * 20; // Hiển thị 20 năm mỗi trang
-
-                this.initElements();
-                this.bindEvents();
-            }
-
-            initElements() {
-                this.yearPicker = document.getElementById('yearPicker');
-                this.yearDropdown = document.getElementById('yearDropdown');
-                this.yearRange = document.getElementById('yearRange');
-                this.yearGrid = document.getElementById('yearGrid');
-                this.yearPrev = document.getElementById('yearPrev');
-                this.yearNext = document.getElementById('yearNext');
-            }
-
-            bindEvents() {
-                // Click vào input để mở dropdown
-                this.yearPicker.addEventListener('click', (e) => {
-                    this.showDropdown();
-                });
-
-                // Navigation buttons
-                this.yearPrev.addEventListener('click', () => {
-                    this.currentRange = Math.max(this.minYear, this.currentRange - 20);
-                    this.renderYears();
-                });
-
-                this.yearNext.addEventListener('click', () => {
-                    this.currentRange = Math.min(this.maxYear - 19, this.currentRange + 20);
-                    this.renderYears();
-                });
-
-                // Click outside để đóng dropdown
-                document.addEventListener('click', (e) => {
-                    if (!this.yearDropdown.contains(e.target) &&
-                        !this.yearPicker.contains(e.target)) {
-                        this.hideDropdown();
-                    }
-                });
-            }
-
-            showDropdown() {
-                const container = this.yearPicker.closest('.form-row');
-
-                this.yearDropdown.style.display = 'block';
-
-                // Đặt range hiện tại dựa trên giá trị input hoặc năm hiện tại
-                const currentValue = this.yearPicker.value;
-                if (currentValue) {
-                    const year = parseInt(currentValue);
-                    this.currentRange = Math.floor(year / 20) * 20;
-                } else {
-                    this.currentRange = Math.floor(this.currentYear / 20) * 20;
-                }
-
-                this.renderYears();
-
-                // Đặt vị trí dropdown
-                container.style.position = 'relative';
-            }
-
-            hideDropdown() {
-                this.yearDropdown.style.display = 'none';
-            }
-
-            renderYears() {
-                const startYear = this.currentRange;
-                const endYear = Math.min(this.currentRange + 19, this.maxYear);
-
-                this.yearRange.textContent = `${startYear} - ${endYear}`;
-                this.yearGrid.innerHTML = '';
-
-                for (let year = startYear; year <= endYear; year++) {
-                    const yearElement = document.createElement('div');
-                    yearElement.className = 'year-item';
-                    yearElement.textContent = year;
-
-                    // Highlight năm hiện tại
-                    if (year === this.currentYear) {
-                        yearElement.classList.add('current-year');
-                    }
-
-                    // Highlight năm đã chọn
-                    if (this.yearPicker.value == year) {
-                        yearElement.classList.add('selected');
-                    }
-
-                    yearElement.addEventListener('click', () => {
-                        this.selectYear(year);
-                    });
-
-                    this.yearGrid.appendChild(yearElement);
-                }
-
-                // Update navigation buttons
-                this.yearPrev.disabled = this.currentRange <= this.minYear;
-                this.yearNext.disabled = this.currentRange + 20 > this.maxYear;
-            }
-
-            selectYear(year) {
-                this.yearPicker.value = year;
-                this.hideDropdown();
-            }
-        }
-
-        // Khởi tạo Year Picker
-        new YearPicker();
+@section('scripts')
+    <script type="module">
+        const picker = new TempusDominus(document.getElementById('yearpicker'), {
+            display: {
+                viewMode: 'years',
+                theme: 'light',
+                toolbarPlacement: 'top',
+                icons: {
+                    type: 'icons',
+                    time: 'bi bi-clock',
+                    date: 'fa-regular fa-calendar',
+                    up: 'fa-solid fa-chevron-up',
+                    down: 'fa-solid fa-chevron-down',
+                },
+                components: {
+                    date: false,
+                    month: false,
+                    clock: false,
+                },
+            },
+            localization: {
+                locale: 'vi',
+                format: 'yyyy'
+            },
+            restrictions: {
+                minDate: new Date(1900, 0, 1),
+                maxDate: new Date()
+            },
+            useCurrent: false,
+            container: document.getElementById('yearpicker-container')
+        });
     </script>
 @endsection

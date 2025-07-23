@@ -1,3 +1,5 @@
+@vite('resources/js/app.js')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,14 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    {{-- Bootstrap 5 CSS --}}
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" rel="stylesheet"> --}}
+
+    {{-- Tempus Dominus Styles --}}
+    {{-- <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css"> --}}
+
+    @livewireStyles
     @yield('styles')
 
     <title>@yield('title', 'App')</title>
-
 </head>
 
 <body>
@@ -23,56 +31,31 @@
     <!-- Sidebar -->
     @include('layouts.sidebar')
 
+    <!-- Modals -->
+    @include('modals.select_salon')
+    @include('modals.delete_confirm')
+    @include('modals.change_status')
+
     <!-- Main Content -->
     <div class="main-content position-relative ">
         @yield('content')
     </div>
 
-    <style>
-        .main-content {
-            margin-left: 250px;
-            padding: 1rem 1.5rem;
-            background-color: #f2f3f5;
-            top: 56px;
-            min-height: calc(100vh - 56px);
-        }
-
-        /* Input time */
-        input[type="time"] {
-            cursor: pointer;
-        }
-
-        /* Ẩn icon đồng hồ mặc định của browser khi focus */
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            opacity: 0;
-            position: absolute;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        /* Checkbox */
-        .form-check-input:checked {
-            background-color: #11c48a;
-            border-color: #11c48a;
-        }
-
-        .form-check-input:hover {
-            cursor: pointer;
-        }
-
-        .form-check-input:focus,
-        .form-control:focus,
-        input[type="time"]:hover {
-            border-color: #11c48a;
-            box-shadow: 0 0 0 0.2rem rgba(6, 194, 104, 0.25);
-        }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    {{-- Bootstrap 5 Bundle --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
-    </script>
+    </script> --}}
+
+    {{-- Popper JS --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script> --}}
+
+    {{-- Tempus Dominus JavaScript --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/js/tempus-dominus.min.js"></script> --}}
+
+    {{-- Font Awesome --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+        integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
 
     @yield('scripts')
 </body>
