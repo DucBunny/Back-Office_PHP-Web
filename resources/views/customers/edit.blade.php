@@ -9,7 +9,6 @@
     </div>
 
     <form class="mt-3" method="POST" action="{{ route('customers.update', $customer->id) }}">
-        {{-- CSRF Token and Method --}}
         @csrf
         @method('PUT')
 
@@ -20,7 +19,10 @@
             </div>
 
             <div class="form-group mb-3">
-                <label class="form-label" for="yearPicker">Năm sinh</label>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <label class="form-label m-0" for="yearPicker">Năm sinh</label>
+                    <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
+                </div>
                 <div class="px-0 col-md-3" id="yearpicker-container">
                     <input type="text" class="form-control" id="yearpicker" placeholder="YYYY"
                         value="{{ now()->year - $customer->age }}" />
@@ -28,7 +30,10 @@
             </div>
 
             <div class="form-group mb-3">
-                <p class="form-label">Giới tính</p>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <p class="form-label m-0">Giới tính</p>
+                    <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
+                </div>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1" value="male"

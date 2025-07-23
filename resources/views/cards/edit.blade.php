@@ -9,7 +9,7 @@
         <span class="fw-light">Chỉnh sửa hồ sơ</span>
     </div>
 
-    <form class="mt-3" method="POST" action="" style="margin-bottom: 8rem">
+    <form class="mt-3" method="POST" action="">
         @csrf
         @method('PUT')
 
@@ -29,7 +29,10 @@
             </div>
 
             <div class="form-group mb-3">
-                <p class="form-label">Cắt tóc</p>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <p class="form-label m-0">Cắt tóc</p>
+                    <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
+                </div>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="isCut" id="radioIsCut1" value="true">
@@ -43,7 +46,10 @@
             </div>
 
             <div class="form-group mb-3">
-                <p class="form-label">Uốn tóc</p>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <p class="form-label m-0">Uốn tóc</p>
+                    <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
+                </div>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="isPerm" id="radioIsPerm1" value="true">
@@ -58,7 +64,10 @@
             </div>
 
             <div class="form-group mb-3">
-                <p class="form-label">Nhuộm tóc</p>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <p class="form-label m-0">Nhuộm tóc</p>
+                    <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
+                </div>
                 <div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="isColor" id="radioIsColor1" value="true">
@@ -73,7 +82,10 @@
             </div>
 
             <div class="form-group mb-3">
-                <p class="form-label">Người thực hiện</p>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <p class="form-label m-0">Người thực hiện</p>
+                    <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
+                </div>
                 <div class="col-md-2 cursor-pointer">
                     <select class="form-select form-control" id="staffSelect">
                         <option selected class="d-none"></option>
@@ -95,7 +107,7 @@
             </div>
         </div>
 
-        <div class="fixed-bottom d-flex justify-content-center gap-3 p-4" style="margin-left: 250px">
+        <div class="d-flex justify-content-center gap-3 p-4">
             {{-- Back --}}
             <a href="{{ route('customers.edit', $customer->id) }}"
                 class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay

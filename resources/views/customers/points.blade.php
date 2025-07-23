@@ -4,8 +4,8 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center">
         <span>Tiêu đề</span>
-        <a href="{{ route('customers.index') }}" class="btn col-1 text-success btn-outline-success"
-            style="background-color: #e6f9f3">Quay lại</a>
+        <a href="{{ route('customers.index') }}" class="btn col-1 text-success btn-outline-success btn-custom-e6f9f3">Quay
+            lại</a>
     </div>
 
     <form class="mt-3" method="POST" action="">
@@ -35,7 +35,7 @@
 
             <div class="text-center mt-3">
                 {{-- Update --}}
-                <button class="btn col-2 py-2 text-white" style="background-color: #06c268" type="submit">Cộng
+                <button class="btn col-2 py-2 text-white btn-custom-06c268" type="submit">Cộng
                     điểm</button>
             </div>
         </div>

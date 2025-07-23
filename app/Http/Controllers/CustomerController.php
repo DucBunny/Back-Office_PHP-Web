@@ -29,9 +29,11 @@ class CustomerController extends Controller
     public function createCard($id)
     {
         $customer = Customer::findOrFail($id);
+        $salons = Salon::all();
 
         return view('cards.create', [
-            'customer' => $customer
+            'customer' => $customer,
+            'salons' => $salons
         ]);
     }
 
