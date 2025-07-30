@@ -6,14 +6,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link text-white me-2" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        xxxx@xxxx.co.jp
+                        {{ Auth::user()->name }}
                         <i class="bi bi-chevron-down small"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
                         <li><a class="dropdown-item" href="{{ route('login') }}">Logout</a></li>
                     </ul>
                 </li>
@@ -21,3 +17,10 @@
         </div>
     </div>
 </nav>
+
+<style>
+    .dropdown-item:focus {
+        background-color: #11c48a !important;
+        color: white !important;
+    }
+</style>

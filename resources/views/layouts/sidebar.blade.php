@@ -117,7 +117,7 @@
     }
 </style>
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Lấy tất cả các element có data-bs-toggle="collapse"
         const collapseElements = document.querySelectorAll('[data-bs-toggle="collapse"]');
@@ -170,4 +170,4 @@
             });
         });
     });
-</script>
+</script> --}}

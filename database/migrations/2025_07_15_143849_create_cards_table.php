@@ -20,8 +20,10 @@ return new class extends Migration
             $table->text('color_note', 200)->nullable();
             $table->boolean('is_perm')->default(false);
             $table->text('perm_note', 200)->nullable();
+            $table->string('practitioner')->nullable();
             $table->text('memo', 1000)->nullable();
             $table->integer('point')->default(0);
+            $table->dateTime('visit_date')->nullable();
 
             $table->timestamps();
             $table->unsignedBigInteger('updated_by')->nullable();

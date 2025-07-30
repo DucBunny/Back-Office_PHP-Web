@@ -22,9 +22,9 @@ class Salon extends Model
         'type',
         'name',
         'furigana',
-        'address',
         'color_plus_point',
         'perm_plus_point',
+        'address',
         'status',
         'updated_by',
     ];
@@ -35,6 +35,7 @@ class Salon extends Model
      * @var array
      */
     protected $casts = [
+        'type' => 'integer',
         'color_plus_point' => 'integer',
         'perm_plus_point' => 'integer',
         'status' => 'boolean',
@@ -56,5 +57,53 @@ class Salon extends Model
         return $this->belongsToMany(User::class, 'user_salon', 'salon_id', 'user_id')
             ->withPivot('created_at', 'updated_at', 'deleted_at')
             ->withTimestamps();
+    }
+
+    /**
+     * Scope a query to filter salons based on request parameters.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function filterBySalonCode($query, $request)
+    {
+        if ($request->filled('salon_code')) {
+            $query->where('salon_code', 'like', '%' . $request->salon_code . '%');
+        }
+    }
+
+    protected function filterByType($query, $request)
+    {
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+    }
+
+    protected function filterByName($query, $request)
+    {
+        if ($request->filled('name')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->name . '%')
+                    ->orWhere('furigana', 'like', '%' . $request->name . '%');
+            });
+        }
+    }
+
+    protected function filterByAddress($query, $request)
+    {
+        if ($request->filled('address')) {
+            $query->where('address', 'like', '%' . $request->address . '%');
+        }
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        $this->filterBySalonCode($query, $request);
+        $this->filterByType($query, $request);
+        $this->filterByName($query, $request);
+        $this->filterByAddress($query, $request);
+
+        return $query;
     }
 }

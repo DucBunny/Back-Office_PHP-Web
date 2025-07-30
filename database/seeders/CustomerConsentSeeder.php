@@ -45,9 +45,9 @@ class CustomerConsentSeeder extends Seeder
                     'customer_id' => $customerId,
                     'consent_id' => $consentId,
                     'agreed_at' => now()->subDays(rand(0, 30))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                    'updated_by' => rand(1, 11), // Random user từ 1-11
                     'created_at' => now(),
                     'updated_at' => now(),
+                    'updated_by' => rand(1, 3),
                 ];
             }
         }

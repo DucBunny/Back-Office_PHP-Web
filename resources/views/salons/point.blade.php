@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Salons Setting Point')
 
-
 @section('content')
     <div class="fs-5">
         <span class="fw-semibold">Quản lý cửa hàng</span>

@@ -8,6 +8,14 @@
         <span class="fw-light">Chỉnh sửa</span>
     </div>
 
+    @if (session('success'))
+        <div id="alert-success"
+            class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
+            style="z-index: 9999; min-width: 300px;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <form class="mt-3" method="POST" action="{{ route('customers.update', $customer->id) }}">
         @csrf
         @method('PUT')
@@ -23,9 +31,9 @@
                     <label class="form-label m-0" for="yearPicker">Năm sinh</label>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div class="px-0 col-md-3" id="yearpicker-container">
-                    <input type="text" class="form-control" id="yearpicker" placeholder="YYYY"
-                        value="{{ now()->year - $customer->age }}" />
+                <div class="ps-3 col-md-3" id="yearpicker-container">
+                    <input type="text" class="form-control" name="birth_year" id="yearpicker" placeholder="YYYY"
+                        value="{{ now()->year - $customer->age }}" readonly>
                 </div>
             </div>
 
@@ -34,181 +42,121 @@
                     <p class="form-label m-0">Giới tính</p>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div>
+                <div class="ps-3">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1" value="male"
-                            {{ $customer->gender === 'male' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="radioDefault1">Nam</label>
+                        <input class="form-check-input" type="radio" name="gender" id="male" value="1"
+                            @checked($customer->gender == 1)>
+                        <label class="form-check-label" for="male">Nam</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" value="female"
-                            {{ $customer->gender === 'female' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="radioDefault2">Nữ</label>
+                        <input class="form-check-input" type="radio" name="gender" id="female" value="2"
+                            @checked($customer->gender == 2)>
+                        <label class="form-check-label" for="female">Nữ</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault3" value="other"
-                            {{ $customer->gender === 'other' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="radioDefault3">Chưa phản hồi</label>
+                        <input class="form-check-input" type="radio" name="gender" id="other" value="3"
+                            @checked($customer->gender == 3)>
+                        <label class="form-check-label" for="other">Chưa phản hồi</label>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-4">
                 <label for="notes" class="form-label">Yêu cầu & lưu ý</label>
-                <textarea class="form-control" id="notes" style="height: 80px; resize: none">{{ $customer->notes }}</textarea>
+                <div class="ps-3">
+                    <textarea class="form-control" name="notes" id="notes" style="height: 80px">{{ old('notes', $customer->notes) }}</textarea>
+                </div>
+
+                @error('notes')
+                    <div class="ps-3 text-danger small">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Action Buttons --}}
+            <div class="form-row d-flex justify-content-center gap-3">
+                {{-- Back --}}
+                <a href="{{ route('customers.index') }}"
+                    class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay lại</a>
+
+                {{-- Update --}}
+                <button class="btn col-1 py-2 text-white btn-custom-11c48a" type="submit">Lưu</button>
             </div>
         </div>
 
         {{-- Create Card --}}
         <div class="form-row mt-4 me-3 text-end">
             <a href="{{ route('customers.createCard', $customer->id) }}" style="margin-left: 10rem"
-                class="btn text-white btn-custom-06c268">Đăng ký
-                mới</a>
-        </div>
-
-        <div class="form-row fixed-bottom d-flex justify-content-center gap-3 p-4" style="margin-left: 250px">
-            {{-- Back --}}
-            <a href="{{ route('customers.index') }}"
-                class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay lại</a>
-
-            {{-- Update --}}
-            <button class="btn col-1 py-2 text-white btn-custom-11c48a" type="submit">Lưu</button>
+                class="btn text-white btn-custom-06c268">Đăng ký mới</a>
         </div>
     </form>
 
-    <div class="mt-3 bg-white">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col" class="col-2">Thời gian</th>
-                    <th scope="col" class="col-2">Cửa hàng</th>
-                    <th scope="col" class="col-7">Nội dung</th>
-                    <th scope="col" class="col-1"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $perPage = 10;
-                    $total = count($cards);
-                    $page = request()->get('page', 1);
-                    $start = ($page - 1) * $perPage;
-                    $end = min($start + $perPage, $total);
-                @endphp
-                @for ($i = $start; $i < $end; $i++)
-                    @php $card = $cards[$i]; @endphp
+    @if (!$cards->isEmpty())
+        <div class="mt-3">
+            {{-- Card Table --}}
+            <table class="table">
+                <thead>
                     <tr>
-                        <td scope="row" class="align-middle">
-                            {{ $card->visit_date->format('d/m/Y H:i') }}
-                        </td>
-                        <td class="align-middle">
-                            {{ $card->salon->name }}
-                        </td>
-                        <td class="align-middle text-truncate" style="max-width: 200px;">
-                            {{ $card->memo }}
-                        </td>
-                        <td class="text-center">
-                            {{-- Edit --}}
-                            <a href="{{ route('customers.editCard', $card->id) }}"
-                                class="w-100 btn btn-sm fw-bold border btn-custom-white">Duyệt</a>
-                        </td>
+                        <th scope="col" class="fw-medium col-2">Thời gian</th>
+                        <th scope="col" class="fw-medium col-5">Cửa hàng</th>
+                        <th scope="col" class="fw-medium col-4">Nội dung</th>
+                        <th scope="col" class="fw-medium col-1"></th>
                     </tr>
-                @endfor
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach ($cards as $card)
+                        <tr>
+                            <td scope="row" class="align-middle">
+                                {{ $card->visit_date->format('d/m/Y H:i') }}
+                            </td>
+                            <td class="align-middle">
+                                {{ $card->salon->name }}
+                            </td>
+                            <td class="align-middle" style="max-width: 200px;">
+                                @if ($card->is_cut)
+                                    Cắt
+                                @endif
+                                @if ($card->is_color)
+                                    Nhuộm
+                                @endif
+                                @if ($card->is_perm)
+                                    Uốn
+                                @endif
+                            </td>
+                            <td class="text-center align-middle">
+                                @if (in_array($card->salon_id, Auth::user()->salon_ids))
+                                    {{-- Edit --}}
+                                    <a href="{{ route('customers.editCard', $card->id) }}"
+                                        class="w-100 btn btn-sm fw-bold border btn-custom-white">Duyệt</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-    <div class="d-flex justify-content-center my-3 gap-2 mb-5">
-        @php $totalPages = ceil($total / $perPage); @endphp
-        <nav>
-            <ul class="pagination">
-                <li class="page-item @if ($page == 1) disabled @endif">
-                    <a class="page-link" href="?page={{ max(1, $page - 1) }}" aria-label="Previous">
-                        <span aria-hidden="true" class="text-muted">&lsaquo;</span>
-                    </a>
-                </li>
-                @for ($p = 1; $p <= $totalPages; $p++)
-                    <li class="page-item  @if ($p == $page) active @endif">
-                        <a class="page-link text-muted" href="?page={{ $p }}">{{ $p }}</a>
+            {{-- Pagination --}}
+            <div class="d-flex justify-content-center my-3 gap-2">
+                <ul class="pagination">
+                    <li class="page-item @if ($cards->onFirstPage()) disabled @endif">
+                        <a class="page-link" href="{{ $cards->previousPageUrl() }}" aria-label="Previous">
+                            <span aria-hidden="true" class="text-muted">&lsaquo;</span>
+                        </a>
                     </li>
-                @endfor
-                <li class="page-item @if ($page == $totalPages) disabled @endif">
-                    <a class="page-link" href="?page={{ min($totalPages, $page + 1) }}" aria-label="Next">
-                        <span aria-hidden="true" class="text-muted">&rsaquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                    @for ($p = 1; $p <= $cards->lastPage(); $p++)
+                        <li class="page-item @if ($p == $cards->currentPage()) active @endif">
+                            <a class="page-link text-muted" href="{{ $cards->url($p) }}">{{ $p }}</a>
+                        </li>
+                    @endfor
+                    <li class="page-item @if (!$cards->hasMorePages()) disabled @endif">
+                        <a class="page-link" href="{{ $cards->nextPageUrl() }}" aria-label="Next">
+                            <span aria-hidden="true" class="text-muted">&rsaquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    @endif
 @endsection
-
-{{-- @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectedStores = new Set();
-            const selectedStoresElement = document.getElementById('selectedStores');
-            const storeOptions = document.querySelectorAll('.store-option');
-
-            // Xử lý click vào dropdown item
-            storeOptions.forEach(option => {
-                option.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    const value = this.dataset.value;
-                    const text = this.textContent;
-
-                    if (selectedStores.has(value)) {
-                        // Nếu đã chọn thì bỏ chọn
-                        selectedStores.delete(value);
-                        this.classList.remove('selected');
-                    } else {
-                        // Nếu chưa chọn thì thêm vào
-                        selectedStores.add(value);
-                        this.classList.add('selected');
-                    }
-
-                    updateSelectedDisplay();
-                });
-            });
-
-            // Cập nhật hiển thị các item đã chọn
-            function updateSelectedDisplay() {
-                if (selectedStores.size === 0) {
-                    selectedStoresElement.innerHTML = '<span class="text-muted">Chưa chọn cửa hàng nào</span>';
-                } else {
-                    let html = '';
-                    storeOptions.forEach(option => {
-                        const value = option.dataset.value;
-                        if (selectedStores.has(value)) {
-                            const text = option.textContent;
-                            html += `<span class="selected-tag">
-                                        ${text}
-                                        <span class="remove-tag" data-value="${value}">x</span>
-                                    </span>`;
-                        }
-                    });
-                    selectedStoresElement.innerHTML = html;
-
-                    // Thêm event listener cho nút xóa
-                    const removeTags = selectedStoresElement.querySelectorAll('.remove-tag');
-                    removeTags.forEach(tag => {
-                        tag.addEventListener('click', function() {
-                            const value = this.dataset.value;
-                            selectedStores.delete(value);
-
-                            // Bỏ selected class từ dropdown item
-                            const option = document.querySelector(`[data-value="${value}"]`);
-                            if (option) {
-                                option.classList.remove('selected');
-                            }
-
-                            updateSelectedDisplay();
-                        });
-                    });
-                }
-            }
-        });
-    </script>
-@endsection --}}
 
 @section('scripts')
     <script type="module">

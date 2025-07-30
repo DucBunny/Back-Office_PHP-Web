@@ -1,5 +1,3 @@
-@vite('resources/js/app.js')
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +16,7 @@
     {{-- <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.9.4/dist/css/tempus-dominus.min.css"> --}}
 
-    @livewireStyles
+    @vite(['resources/css/main.css', 'resources/js/app.js'])
     @yield('styles')
 
     <title>@yield('title', 'App')</title>
@@ -32,7 +30,6 @@
     @include('layouts.sidebar')
 
     <!-- Modals -->
-    @include('modals.select_salon')
     @include('modals.delete_confirm')
     @include('modals.change_status')
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerRequest extends FormRequest
+class UpdateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,21 @@ class CustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gender' => 'required|string|in:male,female,other',
+            'gender' => 'required|integer|in:1,2,3',
             'birth_year' => 'required|integer|between:1900,' . date('Y'),
             'notes' => 'nullable|string|max:1000',
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'notes.max' => 'Yêu cầu & lưu ý không được vượt quá 1000 ký tự!',
         ];
     }
 }

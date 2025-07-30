@@ -11,63 +11,60 @@ class PointHistorySeeder extends Seeder
     {
         $pointHistories = [];
 
-        $types = [
-            'Đến cửa hàng',
-            'Đổi sản phẩm',
-            'Cộng điểm thủ công',
-            'Mua sản phẩm',
-            'Giới thiệu bạn bè',
-            'Sinh nhật',
-            'Sự kiện đặc biệt'
-        ];
-
-        // Tạo lịch sử điểm cho 50 khách hàng
-        for ($customerId = 1; $customerId <= 50; $customerId++) {
-            // Mỗi khách hàng có 3-10 lần thay đổi điểm
-            $numTransactions = rand(3, 10);
-
-            for ($i = 0; $i < $numTransactions; $i++) {
-                $type = $types[array_rand($types)];
-
-                // Xác định số điểm thay đổi dựa trên loại
-                switch ($type) {
-                    case 'Đến cửa hàng':
-                        $change = rand(5, 20); // Cộng 5-20 điểm
-                        break;
-                    case 'Đổi sản phẩm':
-                        $change = -rand(100, 500); // Trừ 100-500 điểm
-                        break;
-                    case 'Cộng điểm thủ công':
-                        $change = rand(10, 100); // Cộng 10-100 điểm
-                        break;
-                    case 'Mua sản phẩm':
-                        $change = rand(20, 200); // Cộng 20-200 điểm
-                        break;
-                    case 'Giới thiệu bạn bè':
-                        $change = rand(50, 150); // Cộng 50-150 điểm
-                        break;
-                    case 'Sinh nhật':
-                        $change = rand(100, 300); // Cộng 100-300 điểm
-                        break;
-                    case 'Sự kiện đặc biệt':
-                        $change = rand(30, 100); // Cộng 30-100 điểm
-                        break;
-                    default:
-                        $change = rand(10, 50);
-                }
-
+        // --- Tạo history type 1 từ card ---
+        $cards = DB::table('cards')->get();
+        foreach ($cards as $card) {
+            if ($card->point > 0) {
                 $pointHistories[] = [
-                    'customer_id' => $customerId,
-                    'change' => $change,
-                    'type' => $type,
-                    'updated_by' => rand(1, 11), // Random user từ 1-11
-                    'created_at' => now()->subDays(rand(0, 90))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-                    'updated_at' => now()->subDays(rand(0, 90))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
+                    'customer_id' => $card->customer_id,
+                    'change'      => $card->point,
+                    'type'        => 1,
+                    'updated_by'  => $card->updated_by,
+                    'created_at'  => $card->visit_date,
+                    'updated_at'  => $card->updated_at,
                 ];
             }
         }
 
-        // Sắp xếp theo thời gian tạo để có logic hợp lý
+        // --- Tạo history type 2, 3 random ---
+        for ($customerId = 1; $customerId <= 50; $customerId++) {
+            // Tính tổng điểm hiện tại từ các history đã tạo cho customer này
+            $currentTotal = 0;
+            foreach ($pointHistories as $h) {
+                if ($h['customer_id'] === $customerId) {
+                    $currentTotal += $h['change'];
+                }
+            }
+
+            $numTransactions = rand(2, 5);
+            for ($i = 0; $i < $numTransactions; $i++) {
+                $type = rand(2, 3);
+
+                if ($type == 2) {
+                    do {
+                        $change = rand(-min($currentTotal, 1000), 1000);
+                    } while ($change == 0);
+                } else {
+                    if ($currentTotal <= 0) {
+                        continue;
+                    }
+                    $change = -rand(1, $currentTotal);
+                }
+
+                $pointHistories[] = [
+                    'customer_id' => $customerId,
+                    'change'      => $change,
+                    'type'        => $type,
+                    'updated_by'  => rand(1, 3),
+                    'created_at'  => now()->subDays(rand(0, 90))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
+                    'updated_at'  => now()->subDays(rand(0, 90))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
+                ];
+
+                $currentTotal += $change;
+            }
+        }
+
+        // Sắp xếp theo thời gian (cũ -> mới)
         usort($pointHistories, function ($a, $b) {
             return $a['created_at'] <=> $b['created_at'];
         });

@@ -10,39 +10,74 @@ class UserSalonSeeder extends Seeder
     public function run(): void
     {
         $userSalons = [
-            // Manager 1 quản lý salon 1 và 2
+            // Manager 1 quản lý salon 1, 2, 3, 4, 5
             [
-                'user_id' => 2, // Manager 1
+                'user_id' => 2,
                 'salon_id' => 1,
                 'updated_by' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2, // Manager 1
+                'user_id' => 2,
                 'salon_id' => 2,
                 'updated_by' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            // Manager 2 quản lý salon 3, 4, 5
             [
-                'user_id' => 3, // Manager 2
+                'user_id' => 2,
                 'salon_id' => 3,
                 'updated_by' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3, // Manager 2
+                'user_id' => 2,
                 'salon_id' => 4,
                 'updated_by' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3, // Manager 2
+                'user_id' => 2,
                 'salon_id' => 5,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            // Manager 2 quản lý salon 6, 7, 8, 9, 10
+            [
+                'user_id' => 3,
+                'salon_id' => 6,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 3,
+                'salon_id' => 7,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 3,
+                'salon_id' => 8,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 3,
+                'salon_id' => 9,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 3,
+                'salon_id' => 10,
                 'updated_by' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -92,13 +127,6 @@ class UserSalonSeeder extends Seeder
             ],
             [
                 'user_id' => 10, // Staff 7
-                'salon_id' => 5,
-                'updated_by' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => 11, // Staff 8
                 'salon_id' => 5,
                 'updated_by' => 1,
                 'created_at' => now(),

@@ -10,19 +10,23 @@ class CustomerSeeder extends Seeder
 {
     public function run(): void
     {
-        $faker = Faker::create('ja_JP'); // Sử dụng faker tiếng Nhật
+        $faker = Faker::create('ja_JP');
         $customers = [];
 
         for ($i = 1; $i <= 50; $i++) {
+            // Tính tổng điểm từ bảng point_history cho customer này
+            $totalPoint = DB::table('point_history')
+                ->where('customer_id', $i)
+                ->sum('change');
+
             $customers[] = [
-                'gender' => $faker->randomElement(['male', 'female', 'other']),
-                'age' => $faker->numberBetween(18, 70),
-                'category' => $faker->randomElement(['Cắt', 'Nhuộm', 'Uốn', 'Cắt,Nhuộm', 'Cắt,Uốn', 'Nhuộm,Uốn', 'Cắt,Nhuộm,Uốn']),
-                'point' => $faker->numberBetween(0, 1000),
+                'gender' => $faker->randomElement([1, 2, 3]),
+                'age' => $faker->numberBetween(10, 70),
+                'point' => $totalPoint,
                 'notes' => $faker->optional(0.7)->realText(200),
-                'updated_by' => $faker->numberBetween(1, 3),
                 'created_at' => $faker->dateTimeBetween('-2 years', 'now'),
                 'updated_at' => now(),
+                'updated_by' => $faker->numberBetween(1, 3),
             ];
         }
 

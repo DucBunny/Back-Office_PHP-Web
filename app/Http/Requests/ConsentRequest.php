@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ConsentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,21 +22,19 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login_id' => 'required|string',
-            'password' => 'required|string',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
         ];
     }
 
     /**
-     * Get the custom validation messages for the request.
-     *
-     * @return array<string, string>
+     * Get the error messages for the defined validation rules.
      */
     public function messages(): array
     {
         return [
-            'login_id.required' => 'Vui lòng nhập Login ID!',
-            'password.required' => 'Vui lòng nhập mật khẩu!'
+            'title.required' => 'Vui lòng nhập tiêu đề!',
+            'description.required' => 'Vui lòng nhập nội dung!',
         ];
     }
 }

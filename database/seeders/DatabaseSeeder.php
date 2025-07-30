@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             ConsentSeeder::class,
             CustomerConsentSeeder::class,
-            PointHistorySeeder::class,
             CardSeeder::class,
+            PointHistorySeeder::class,
+            CustomerPointUpdateSeeder::class,
         ]);
     }
 }

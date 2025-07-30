@@ -2,51 +2,78 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\Salon;
 use App\Models\User;
 
+use App\Services\UserSalonService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Logic to retrieve and display user information
-        return view('users.index');
+        $salons = Salon::all();
+        $users = User::filter($request)
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('users.index', [
+            'salons' => $salons,
+            'users' => $users
+        ]);
     }
 
     public function create()
     {
-        // Logic to show the user creation form
-        return view('users.create');
+        $salons = Salon::all();
+
+        return view('users.create', [
+            'salons' => $salons
+        ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        // Logic to validate and store the new user
-        // ...
+        DB::transaction(function () use ($request) {
+            app(UserSalonService::class)->storeUserSalons($request);
+        });
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()->route('users.index')->with('success', 'Thêm người dùng thành công!');
     }
 
     public function edit($id)
     {
-        // Logic to retrieve the user for editing
-        return view('users.edit', ['user' => User::findOrFail($id)]);
+        $salons = Salon::all();
+        $user = User::findOrFail($id);
+        $salonIds = $user->salons()->wherePivot('deleted_at', null)->pluck('id')->implode(',');
+
+        return view('users.edit', [
+            'salons' => $salons,
+            'user' => $user,
+            'salonIds' => $salonIds
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        // Logic to validate and update the user
-        // ...
+        $user = User::findOrFail($id);
+        DB::transaction(function () use ($user, $request) {
+            app(UserSalonService::class)->updateUserSalons($user, $request);
+        });
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'Cập nhật người dùng thành công!');
     }
 
     public function destroy($id)
     {
-        // Logic to delete the user
-        // ...
+        $user = User::select('id')->findOrFail($id);
+        DB::transaction(function () use ($user) {
+            app(UserSalonService::class)->deleteUserSalons($user);
+        });
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'Xóa người dùng thành công!');
     }
 }

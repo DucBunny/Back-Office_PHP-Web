@@ -17,16 +17,6 @@ class User extends Authenticatable
     use HasFactory, Notifiable, SoftDeletes;
 
     /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'login_id';
-    }
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -58,6 +48,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'role' => 'integer',
             'password' => 'hashed',
         ];
     }
@@ -98,8 +89,6 @@ class User extends Authenticatable
         return $this->hasMany(PointHistory::class, 'updated_by');
     }
 
-    // public function updatedCustomerConsents() { return $this->hasMany(CustomerConsent::class, 'updated_by'); } // Nếu có model CustomerConsent
-
     /**
      * Get all salons that this user is associated with. (Many-to-Many relationship)
      */
@@ -108,5 +97,34 @@ class User extends Authenticatable
         return $this->belongsToMany(Salon::class, 'user_salon', 'user_id', 'salon_id')
             ->withPivot('updated_by', 'created_at', 'updated_at', 'deleted_at')
             ->withTimestamps();
+    }
+
+    /**
+     * Get all salon IDs associated with the user.
+     */
+    public function getSalonIdsAttribute()
+    {
+        // If the user is an admin, return all salon IDs
+        if ($this->role == 1) {
+            return Salon::pluck('id')->toArray();
+        }
+
+        return $this->salons()->wherePivot('deleted_at', null)->pluck('id')->toArray();
+    }
+
+    /**
+     * Scope a query to filter users based on salon IDs.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
+    public function scopeFilter($query, $request)
+    {
+        if ($request->filled('salon_ids')) {
+            $query->whereHas('salons', function ($q) use ($request) {
+                $q->whereIn('salon_id', explode(',', $request->salon_ids));
+            });
+        }
     }
 }

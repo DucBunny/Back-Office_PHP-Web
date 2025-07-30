@@ -38,6 +38,7 @@ class PointHistory extends Model
     protected $casts = [
         'customer_id' => 'integer',
         'change' => 'integer',
+        'type' => 'integer',
     ];
 
     /**

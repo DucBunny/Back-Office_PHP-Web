@@ -1,5 +1,3 @@
-@vite('resources/js/app.js')
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,11 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
-    </script>
+    @vite(['resources/css/main.css', 'resources/js/app.js', 'resources/js/show_hide_password.js'])
 </head>
 
 <body>
@@ -32,8 +26,9 @@
                                         style="background-color: #11c48a">必須</span>
                                 </div>
 
-                                <input type="text" name="login_id" class="form-control" id="login_id"
-                                    value="{{ old('login_id') }}">
+                                <input type="text" name="login_id"
+                                    class="form-control {{ $errors->has('login_id') ? 'is-invalid' : '' }}"
+                                    id="login_id" value="{{ old('login_id') }}">
                                 @error('login_id')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -46,7 +41,13 @@
                                         style="background-color: #11c48a">必須</span>
                                 </div>
 
-                                <input type="password" name="password" class="form-control" id="password">
+                                <div class="position-relative">
+                                    <input type="password" name="password"
+                                        class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                        id="password" value="{{ old('password') }}">
+                                    <i class="fa-regular fa-eye-slash position-absolute top-50 translate-middle-y end-0 me-2 text-muted toggle-password"
+                                        style="cursor:pointer" data-target="password"></i>
+                                </div>
                                 @error('password')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

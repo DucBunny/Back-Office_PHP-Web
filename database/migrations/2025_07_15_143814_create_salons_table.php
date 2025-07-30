@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('salons', function (Blueprint $table) {
             $table->id();
             $table->string('salon_code', 20)->nullable();
-            $table->string('type')->comment('Cắt tóc / Chăm sóc sắc đẹp');
+            $table->integer('type')->comment('1: Cắt tóc / 2: Tạo kiểu');
             $table->string('name')->nullable();
             $table->string('furigana')->nullable();
             $table->string('address')->nullable();
             $table->integer('color_plus_point')->default(0);
             $table->integer('perm_plus_point')->default(0);
-            $table->boolean('status')->default(true)->comment('true: công khai');
+            $table->boolean('status')->default(true)->comment('true: Công khai');
 
             $table->timestamps();
             $table->unsignedBigInteger('updated_by')->nullable();

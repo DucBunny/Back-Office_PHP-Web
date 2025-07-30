@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->integer('change');
-            $table->string('type')->comment('Đến cửa hàng / Thay đổi thủ công');
+            $table->integer('type')->comment('1: Đến cửa hàng / 2: Thay đổi thủ công / 3: Đổi sản phẩm');
             $table->timestamps();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();

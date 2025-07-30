@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Customer Card Edit')
 
-
 @section('content')
     <div class="fs-5">
         <span class="fw-semibold">Quản lý khách hàng</span>
@@ -9,21 +8,21 @@
         <span class="fw-light">Chỉnh sửa hồ sơ</span>
     </div>
 
-    <form class="mt-3" method="POST" action="">
+    <form class="mt-3" method="POST" action="{{ route('customers.updateCard', $card->id) }}">
         @csrf
         @method('PUT')
 
         <div class="p-4 bg-white rounded-4 border border-2">
             <div class="form-group mb-3">
                 <p class="form-label">Ngày đến cửa hàng</p>
-                <p class="ps-3">20/01/2024</p>
+                <p class="ps-3">{{ $card->visit_date->format('d/m/Y') }}</p>
             </div>
 
             <div class="form-group mb-3">
                 <p class="form-label">Cửa hàng</p>
-                <div class="col-md-2 cursor-pointer">
+                <div class="ps-3 col-md-2">
                     <select class="form-select form-control" id="salonSelect" disabled>
-                        <option value="1" selected>Cửa hàng A</option>
+                        <option selected>{{ $card->salon->name }}</option>
                     </select>
                 </div>
             </div>
@@ -33,14 +32,16 @@
                     <p class="form-label m-0">Cắt tóc</p>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div>
+                <div class="ps-3">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isCut" id="radioIsCut1" value="true">
-                        <label class="form-check-label" for="radioIsCut1">Có</label>
+                        <input class="form-check-input" type="radio" name="is_cut" id="radioIsCut[1]" value="1"
+                            {{ old('is_cut', $card->is_cut) == 1 ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioIsCut[1]">Có</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isCut" id="radioIsCut2" value="false">
-                        <label class="form-check-label" for="radioIsCut2">Không</label>
+                        <input class="form-check-input" type="radio" name="is_cut" id="radioIsCut[0]" value="0"
+                            {{ old('is_cut', $card->is_cut) == 0 ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioIsCut[0]">Không</label>
                     </div>
                 </div>
             </div>
@@ -50,17 +51,23 @@
                     <p class="form-label m-0">Uốn tóc</p>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div>
+                <div class="ps-3">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isPerm" id="radioIsPerm1" value="true">
-                        <label class="form-check-label" for="radioIsPerm1">Có</label>
+                        <input class="form-check-input" type="radio" name="is_perm" id="radioIsPerm[1]" value="1"
+                            {{ old('is_perm', $card->is_perm) == 1 ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioIsPerm[1]">Có</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isPerm" id="radioIsPerm2" value="false">
-                        <label class="form-check-label" for="radioIsPerm2">Không</label>
+                        <input class="form-check-input" type="radio" name="is_perm" id="radioIsPerm[0]" value="0"
+                            {{ old('is_perm', $card->is_perm) == 0 ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioIsPerm[0]">Không</label>
                     </div>
+
+                    <textarea class="form-control mt-1" style="height: 80px" name="perm_note" id="permNote">{{ old('perm_note', $card->perm_note) }}</textarea>
+                    @error('perm_note')
+                        <div class="ps-3 text-danger small">{{ $message }}</div>
+                    @enderror
                 </div>
-                <textarea class="form-control mt-1" style="height: 80px; resize: none" id="permNote"></textarea>
             </div>
 
             <div class="form-group mb-3">
@@ -68,17 +75,23 @@
                     <p class="form-label m-0">Nhuộm tóc</p>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div>
+                <div class="ps-3">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isColor" id="radioIsColor1" value="true">
-                        <label class="form-check-label" for="radioIsColor1">Có</label>
+                        <input class="form-check-input" type="radio" name="is_color" id="radioIsColor[1]" value="1"
+                            {{ old('is_color', $card->is_color) == 1 ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioIsColor[1]">Có</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="isColor" id="radioIsColor2" value="false">
-                        <label class="form-check-label" for="radioIsColor2">Không</label>
+                        <input class="form-check-input" type="radio" name="is_color" id="radioIsColor[0]" value="0"
+                            {{ old('is_color', $card->is_color) == 0 ? 'checked' : '' }}>
+                        <label class="form-check-label" for="radioIsColor[0]">Không</label>
                     </div>
+
+                    <textarea class="form-control mt-1" style="height: 80px" name="color_note" id="colorNote">{{ old('color_note', $card->color_note) }}</textarea>
+                    @error('color_note')
+                        <div class="ps-3 text-danger small">{{ $message }}</div>
+                    @enderror
                 </div>
-                <textarea class="form-control mt-1" style="height: 80px; resize: none" id="colorNote"></textarea>
             </div>
 
             <div class="form-group mb-3">
@@ -86,27 +99,34 @@
                     <p class="form-label m-0">Người thực hiện</p>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div class="col-md-2 cursor-pointer">
-                    <select class="form-select form-control" id="staffSelect">
-                        <option selected class="d-none"></option>
-                        <option value="1">Nhân viên A</option>
-                        <option value="2">Nhân viên B</option>
-                        <option value="3">Nhân viên C</option>
-                    </select>
+                <div class="ps-3 col-md-2">
+                    <input type="text" class="form-control" name="practitioner" id="practitioner"
+                        value="{{ old('practitioner', $card->practitioner) }}">
                 </div>
+
+                @error('practitioner')
+                    <div class="ps-3 text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group mb-3">
                 <p class="form-label">Ghi chú</p>
-                <textarea class="form-control" style="height: 80px; resize: none" id="memo"></textarea>
+                <div class="ps-3">
+                    <textarea class="form-control" style="height: 80px" name="memo" id="memo">{{ old('memo', $card->memo) }}</textarea>
+
+                    @error('memo')
+                        <div class="ps-3 text-danger small">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
             <div class="form-group">
-                <p class="form-label">Cấp điểm</p>
-                <p class="ps-3">10 pt</p>
+                <p class="form-label">Điểm thưởng</p>
+                <p class="ps-3">{{ $card->point }} pt</p>
             </div>
         </div>
 
+        {{-- Action Buttons --}}
         <div class="d-flex justify-content-center gap-3 p-4">
             {{-- Back --}}
             <a href="{{ route('customers.edit', $customer->id) }}"
@@ -114,7 +134,33 @@
                 lại</a>
 
             {{-- Update --}}
-            <button class="btn col-1 py-2 text-white btn-custom-11c48a" type="submit">Lưu</button>
+            <button type="submit" class="btn col-1 py-2 text-white btn-custom-11c48a">Lưu</button>
         </div>
     </form>
+@endsection
+
+@section('scripts')
+    <script>
+        document.querySelectorAll('input[name="is_perm"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const textarea = document.getElementById('permNote');
+                if (this.value == '1') {
+                    textarea.value = '薬剤1: \n薬剤2: \n薬剤3: ';
+                } else {
+                    textarea.value = '';
+                }
+            });
+        });
+
+        document.querySelectorAll('input[name="is_color"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const textarea = document.getElementById('colorNote');
+                if (this.value == '1') {
+                    textarea.value = '薬剤1: \n薬剤2: \n薬剤3: ';
+                } else {
+                    textarea.value = '';
+                }
+            });
+        });
+    </script>
 @endsection

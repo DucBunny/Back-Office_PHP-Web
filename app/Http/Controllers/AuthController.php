@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -15,13 +17,21 @@ class AuthController extends Controller
 
     public function postLogin(LoginRequest $request)
     {
-        $credentials = $request->only('login_id', 'password');
+        $info = $request->only('login_id', 'password');
 
-        if (Auth::attempt($credentials)) {
+        // Lấy user theo login_id
+        $user = User::where('login_id', $info['login_id'])->first();
+        $role = $user ? $user->role : null;
+
+        // Chỉ cho phép role 1 (admin) và 2 (manager) đăng nhập
+        if (in_array($role, [1, 2]) && Auth::attempt(array_merge($info, ['role' => $role]))) {
             return redirect()->route('home');
         }
 
         // Authentication failed, redirect back with error
-        return redirect()->back()->withErrors(['login_id' => 'Invalid credentials'])->withInput();
+        return redirect()->back()->withErrors([
+            'login_id' => ' ',
+            'password' => 'Login ID hoặc mật khẩu không đúng!'
+        ])->withInput();
     }
 }

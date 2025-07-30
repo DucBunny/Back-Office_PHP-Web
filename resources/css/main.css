@@ -1,13 +1,17 @@
+/* Reset CSS */
+@import "./reset.css";
+
+/* CSS Libraries */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import "@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
 body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
         "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 16px;
-}
-
-body.fade-transition {
-    opacity: 0.3;
-    transition: opacity 0.4s;
 }
 
 /* Main Content */
@@ -17,6 +21,10 @@ body.fade-transition {
     background-color: #f2f3f5;
     top: 56px;
     min-height: calc(100vh - 56px);
+}
+
+.form-label {
+    font-weight: 500;
 }
 
 /* Input time */
@@ -47,7 +55,6 @@ input[type="radio"]:focus,
 /* Button */
 .btn-custom-11c48a {
     background-color: #11c48a !important;
-    color: #ffffff !important;
 }
 .btn-custom-11c48a:hover {
     background-color: #089e6c !important;
@@ -55,7 +62,6 @@ input[type="radio"]:focus,
 
 .btn-custom-06c268 {
     background-color: #06c268 !important;
-    color: #ffffff !important;
 }
 .btn-custom-06c268:hover {
     background-color: #049a4e !important;
@@ -66,8 +72,8 @@ input[type="radio"]:focus,
 }
 .btn-custom-e6f9f3:hover {
     background-color: #11c48a !important;
-    color: #ffffff !important;
     border-color: #11c48a !important;
+    color: #ffffff !important;
 }
 
 .btn-custom-f2aa84 {
@@ -78,7 +84,11 @@ input[type="radio"]:focus,
     color: #fff !important;
 }
 
-.btn-custom-white:hover {
+.btn-custom-6c757d {
+    background-color: #6c757d !important;
+}
+.btn-custom-white:hover,
+.btn-custom-6c757d:hover {
     background-color: #494949 !important;
     color: #ffffff !important;
 }
@@ -88,4 +98,9 @@ input[type="radio"]:focus,
     background-color: #11c48a !important;
     border-color: #11c48a !important;
     color: #ffffff !important;
+}
+
+/* Tempus Dominus Picker */
+.tempus-dominus-widget .active {
+    background-color: #11c48a !important;
 }

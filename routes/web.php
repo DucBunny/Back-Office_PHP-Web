@@ -19,21 +19,24 @@ Route::prefix('login')->controller(AuthController::class)
 
 Route::get('/home', function () {
     return view('home');
-})->name('home');
+})
+    ->middleware('auth')
+    ->name('home');
 
 Route::prefix('customers')->controller(CustomerController::class)
     ->name('customers.')
+    ->middleware('auth')
     ->group(function () {
         Route::get('/', 'index')->name('index');
 
         Route::get('/{id}/card-create', 'createCard')->name('createCard');
-        Route::post('/', 'storeCard')->name('storeCard');
+        Route::post('/{id}/card-store', 'storeCard')->name('storeCard');
 
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}/update', 'update')->name('update');
 
         Route::get('/{id}/points', 'points')->name('points');
-        Route::post('/points', 'addPoints')->name('addPoints');
+        Route::post('/{id}/add-points', 'addPoints')->name('addPoints');
 
         Route::get('/{id}/card-edit', 'editCard')->name('editCard');
         Route::put('/{id}/card-update', 'updateCard')->name('updateCard');
@@ -43,23 +46,28 @@ Route::prefix('customers')->controller(CustomerController::class)
 
 Route::prefix('salons')->controller(SalonController::class)
     ->name('salons.')
+    ->middleware('auth')
     ->group(function () {
         Route::get('/', 'index')->name('index');
 
         Route::get('/setting-point', 'pointSetting')->name('pointSetting');
         // Route::post('/points', 'addPoints')->name('addPoints');
 
+        Route::get('/modal-select', 'modalSelect')->name('modalSelect');
+        Route::patch('/{id}/toggle-status', 'toggleStatus')->name('toggleStatus');
+
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
 
-        Route::get('/{id}', 'show')->name('show');
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}', 'update')->name('update');
+
         Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
 Route::prefix('users')->controller(UserController::class)
     ->name('users.')
+    ->middleware('auth')
     ->group(function () {
         Route::get('/', 'index')->name('index');
 
@@ -74,6 +82,7 @@ Route::prefix('users')->controller(UserController::class)
 
 Route::prefix('consents')->controller(ConsentController::class)
     ->name('consents.')
+    ->middleware('auth')
     ->group(function () {
         Route::get('/', 'index')->name('index');
 
@@ -82,10 +91,7 @@ Route::prefix('consents')->controller(ConsentController::class)
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
 
+        Route::patch('/{id}/toggle-status', 'toggleStatus')->name('toggleStatus');
+
         Route::get('/{id}', 'show')->name('show');
-
-        Route::get('/{id}/edit', 'edit')->name('edit');
-        Route::put('/{id}', 'update')->name('update');
-
-        Route::delete('/{id}', 'destroy')->name('destroy');
     });

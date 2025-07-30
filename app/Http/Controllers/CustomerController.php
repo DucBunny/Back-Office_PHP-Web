@@ -4,32 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Card;
+use App\Models\PointHistory;
 use App\Models\Salon;
-use App\Models\User;
+
+use App\Http\Requests\StoreCardRequest;
+use App\Http\Requests\UpdateCardRequest;
+use App\Http\Requests\UpdateCustomerRequest;
+use App\Services\CardAndPointService;
+use App\Services\CustomerConsentService;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::whereHas('cards', function ($query) {
-            $query->active();
-        })->get();
+        $salonIds = Auth::user()->salon_ids;
 
-        // Sort customers by last visit date in descending order
-        $customers = $customers->sortByDesc(function ($customer) {
-            return $customer->last_visit_date ? $customer->last_visit_date->timestamp : 0;
-        })->values();
+        $customerIds = Card::whereIn('salon_id', $salonIds)
+            ->pluck('customer_id')
+            ->unique()
+            ->toArray();
+
+        $customers = Customer::filter($request)
+            ->whereIn('id', $customerIds)
+            ->withMax([
+                'cards as last_visit_date' => function ($q) use ($salonIds) {
+                    $q->whereIn('salon_id', $salonIds);
+                }
+            ], 'visit_date')
+            ->orderByDesc('last_visit_date')
+            ->paginate(10)
+            ->withQueryString();
+
+        $salons = Salon::whereIn('id', $salonIds)->get();
 
         return view('customers.index', [
             'customers' => $customers,
+            'salons' => $salons
         ]);
     }
 
     public function createCard($id)
     {
-        $customer = Customer::findOrFail($id);
-        $salons = Salon::all();
+        $customer = Customer::select(['id'])->findOrFail($id);
+        $salons = Salon::select(['id', 'name'])
+            ->whereIn('id', Auth::user()->salon_ids)
+            ->get();
 
         return view('cards.create', [
             'customer' => $customer,
@@ -37,18 +60,21 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function storeCard(Request $request)
+    public function storeCard(StoreCardRequest $request, $id)
     {
-        // Validate and store the customer data
-        // ...
+        DB::transaction(function () use ($request, $id) {
+            app(CardAndPointService::class)->storeCard($request, $id);
+        });
 
-        return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
+        return redirect()->route('customers.edit', $id)->with('success', 'Thêm dữ liệu thành công!');
     }
 
     public function edit($id)
     {
-        $customer = Customer::findOrFail($id);
-        $cards = Card::where('customer_id', $id)->get();
+        $customer = Customer::select(['id', 'gender', 'age', 'notes'])->findOrFail($id);
+        $cards = Card::where('customer_id', $id)
+            ->orderByDesc('visit_date')
+            ->paginate(10);
 
         return view('customers.edit', [
             'customer' => $customer,
@@ -56,56 +82,93 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function update($id)
+    public function update(UpdateCustomerRequest $request, $id)
     {
-        // Validate and update the customer data
-        // ...
+        $customer = Customer::findOrFail($id);
+        $customer->update([
+            'gender' => $request->gender,
+            'age' => now()->year - $request->birth_year,
+            'notes' => $request->notes,
+            'updated_at' => now(),
+            'updated_by' => Auth::id(),
+        ]);
 
-        return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
+        return redirect()->route('customers.index')->with('success', 'Cập nhật dữ liệu thành công!');
     }
 
     public function points($id)
     {
-        $customer = Customer::findOrFail($id);
-        $cards = Card::where('customer_id', $id)->get();
+        $customer = Customer::select(['id', 'point'])->findOrFail($id);
+        $point_history = PointHistory::select(['change', 'type', 'created_at'])->where('customer_id', $id)
+            ->orderByDesc('created_at')
+            ->paginate(10);
 
         return view('customers.points', [
             'customer' => $customer,
-            'cards' => $cards,
+            'point_history' => $point_history,
         ]);
     }
 
-    public function addPoints(Request $request)
+    public function addPoints(Request $request, $id)
     {
-        // Validate and add points to the customer
-        // ...
+        $request->validate([
+            'point' => 'required|integer',
+        ]);
 
-        return redirect()->route('customers.index')->with('success', 'Points added successfully.');
+        DB::transaction(function () use ($request, $id) {
+            $customer = Customer::select(['id', 'point'])->findOrFail($id);
+            $customer->increment('point', $request->point);
+
+            PointHistory::create([
+                'customer_id' => $id,
+                'change' => $request->point,
+                'type' => 2, // Cộng điểm thủ công
+                'created_at' => now(),
+                'updated_at' => now(),
+                'updated_by' => Auth::id(),
+            ]);
+        });
+
+        return redirect()->route('customers.points', $id)->with('success', 'Cập nhật điểm thành công!');
     }
 
     public function editCard($id)
     {
         $card = Card::findOrFail($id);
-        $customer = Customer::findOrFail($card->customer_id);
+        $customer = Customer::select(['id'])->findOrFail($card->customer_id);
+
         return view('cards.edit', [
             'card' => $card,
             'customer' => $customer,
         ]);
     }
 
-    public function updateCard(Request $request, $id)
+    public function updateCard(UpdateCardRequest $request, $id)
     {
-        // Validate and update the card data
-        // ...
+        $card = Card::findOrFail($id);
 
-        return redirect()->route('customers.index')->with('success', 'Card updated successfully.');
+        $card->update([
+            'is_cut' => (bool) $request->is_cut,
+            'is_color' => (bool) $request->is_color,
+            'color_note' => $request->color_note,
+            'is_perm' => (bool) $request->is_perm,
+            'perm_note' => $request->perm_note,
+            'practitioner' => $request->practitioner,
+            'memo' => $request->memo,
+            'updated_at' => now(),
+            'updated_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('customers.edit', $card->customer_id)->with('success', 'Cập nhật dữ liệu thành công!');
     }
 
     public function destroy($id)
     {
-        $customer = Customer::findOrFail($id);
-        Card::where('customer_id', $id)->where('visit_date', $customer->last_visit_date)->delete();
+        $customer = Customer::select(['id'])->findOrFail($id);
+        DB::transaction(function () use ($customer) {
+            app(CustomerConsentService::class)->deleteCustomerConsent($customer);
+        });
 
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with('success', 'Xóa dữ liệu thành công!');
     }
 }

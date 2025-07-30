@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('gender')->notNullable()->comment('male / female / other');
+            $table->integer('gender')->notNullable()->comment('1: male / 2: female / 3: other');
             $table->integer('age')->nullable();
-            $table->string('category')->nullable();
             $table->integer('point')->default(0);
             $table->text('notes', 1000)->nullable();
 

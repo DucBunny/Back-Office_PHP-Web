@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('login_id')->unique()->notNullable();
             $table->string('name')->nullable();
             $table->string('password')->notNullable();
-            $table->string('role')->comment('admin / manager / staff');
+            $table->integer('role')->comment('1: admin / 2: manager / 3: staff');
             $table->string('device_code', 5)->nullable();
 
             $table->timestamps(); // Created at and Updated at

@@ -1,112 +1,197 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="modal fade" id="salonModal" tabindex="-1" aria-labelledby="salonModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #11c48a">
+                <h5 class="modal-title text-white" id="salonModalLabel">Chọn cửa hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Select Salon</title>
-</head>
-
-<body>
-    <div class="modal fade" id="salonModal" tabindex="-1" aria-labelledby="salonModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #11c48a">
-                    <h5 class="modal-title text-white" id="salonModalLabel">Chọn cửa hàng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    {{-- Search --}}
-                    <div class="mb-4 border-bottom pb-4">
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label for="salonCode" class="form-label">Số hiệu cửa hàng</label>
-                                <input type="text" class="form-control" id="salonCode">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="salonType" class="form-label">Loại cửa hàng</label>
-                                <div class="cursor-pointer">
-                                    <select class="form-select form-control" id="salonType">
-                                        <option selected class="d-none"></option>
-                                        <option value="1">Cắt</option>
-                                        <option value="2">Tạo kiểu</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="salonName" class="form-label">Tên cửa hàng - Furigana</label>
-                                <input type="text" class="form-control" id="salonName">
+            <div class="modal-body">
+                {{-- Search --}}
+                <div class="mb-4 border-bottom pb-4">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="salonCode" class="form-label">Số hiệu cửa hàng</label>
+                            <input type="text" class="form-control" id="salonCode">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="salonType" class="form-label">Loại cửa hàng</label>
+                            <div>
+                                <select class="form-select form-control" id="salonType">
+                                    <option selected></option>
+                                    <option value="1">Cắt tóc</option>
+                                    <option value="2">Tạo kiểu</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="text-center">
-                            <button class="btn text-white btn-custom-11c48a" type="button" id="searchSalonButton">
-                                Tìm kiếm
-                            </button>
+                        <div class="col-md-4">
+                            <label for="salonName" class="form-label">Tên cửa hàng - Furigana</label>
+                            <input type="text" class="form-control" id="salonName">
                         </div>
                     </div>
+                    <div class="text-center">
+                        <button class="btn text-white btn-custom-11c48a" type="button" id="searchSalonButton">
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </div>
 
-                    {{-- Salon List --}}
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" style="width: 3%" class="align-middle">
-                                        <input type="checkbox" id="selectAll" class="form-check-input">
-                                    </th>
-                                    <th scope="col" style="width: 5%">ID</th>
-                                    <th scope="col" style="width: 10%">Số hiệu</th>
-                                    <th scope="col" style="width: 10%">Phân loại</th>
-                                    <th scope="col" style="width: 15%">Tên</th>
-                                    <th scope="col" style="width: 15%">Furigana</th>
-                                    <th scope="col" style="width: 30%">Địa chỉ</th>
-                                    <th scope="col" style="width: 12%">Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                {{-- Salon List --}}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 3%" class="align-middle">
+                                    <input type="checkbox" id="selectAll" class="form-check-input">
+                                </th>
+                                <th scope="col" style="width: 5%">ID</th>
+                                <th scope="col" style="width: 10%">Số hiệu</th>
+                                <th scope="col" style="width: 10%">Phân loại</th>
+                                <th scope="col" style="width: 15%">Tên</th>
+                                <th scope="col" style="width: 15%">Furigana</th>
+                                <th scope="col" style="width: 30%">Địa chỉ</th>
+                                <th scope="col" style="width: 12%">Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($salons as $salon)
                                 <tr>
                                     <td scope="row" class="align-middle">
-                                        <input type="checkbox" class="form-check-input" value="1"
-                                            id="salonCheckbox_1">
+                                        <input type="checkbox" class="form-check-input" value="{{ $salon->id }}"
+                                            id="salonCheckbox_{{ $salon->id }}">
                                     </td>
                                     <td scope="row" class="align-middle">
-                                        100
+                                        {{ $salon->id }}
                                     </td>
                                     <td class="align-middle">
-                                        1000001
+                                        {{ $salon->salon_code }}
                                     </td>
                                     <td class="align-middle">
-                                        Cắt tóc
+                                        {{ $salon->type == 1 ? 'Cắt tóc' : 'Tạo kiểu' }}
                                     </td>
                                     <td class="align-middle">
-                                        AAA
+                                        {{ $salon->name }}
                                     </td>
                                     <td class="align-middle">
-                                        e ten
+                                        {{ $salon->furigana }}
                                     </td>
                                     <td class="align-middle text-truncate">
-                                        Lorem ipsum dolor sit amet.
+                                        {{ $salon->address }}
                                     </td>
-                                    <td class="align-middle fw-semibold text-success">
-                                        Công khai
+                                    <td
+                                        class="align-middle fw-semibold {{ $salon->status ? 'text-success' : 'text-danger' }}">
+                                        {{ $salon->status ? 'Công khai' : 'Riêng tư' }}
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn text-success btn-outline-success btn-custom-e6f9f3"
-                        data-bs-dismiss="modal">Quay lại</button>
-                    <button type="submit" class="btn text-white btn-custom-11c48a">Lưu</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn text-success btn-outline-success btn-custom-e6f9f3"
+                    data-bs-dismiss="modal">Quay lại</button>
+                <button type="button" class="btn text-white btn-custom-11c48a" id="saveSelectedSalons">Lưu</button>
             </div>
         </div>
     </div>
-</body>
+</div>
 
-</html>
+<script>
+    // Search
+    document.getElementById('searchSalonButton').addEventListener('click', function() {
+        const code = document.getElementById('salonCode').value;
+        const type = document.getElementById('salonType').value;
+        const name = document.getElementById('salonName').value;
+
+        fetch(`/salons/modal-select?salon_code=${code}&type=${type}&name=${name}`)
+            .then(res => res.text())
+            .then(html => {
+                // Chỉ thay tbody để giữ lại các checkbox đã chọn
+                document.querySelector('#salonModal tbody').innerHTML =
+                    new DOMParser().parseFromString(html, 'text/html').querySelector('tbody').innerHTML;
+            });
+    });
+
+    // Checkbox Select All
+    document.getElementById('selectAll').addEventListener('change', function() {
+        const checked = this.checked;
+        document.querySelectorAll('#salonModal tbody input[type="checkbox"]').forEach(cb => {
+            cb.checked = checked;
+        });
+    });
+
+    // Tự động cập nhật trạng thái nút Select All khi check/uncheck từng salon
+    document.querySelector('#salonModal tbody').addEventListener('change', function(e) {
+        if (e.target.type === 'checkbox') {
+            const allCheckboxes = document.querySelectorAll('#salonModal tbody input[type="checkbox"]');
+            const checkedCheckboxes = document.querySelectorAll(
+                '#salonModal tbody input[type="checkbox"]:checked');
+            document.getElementById('selectAll').checked = allCheckboxes.length === checkedCheckboxes.length &&
+                allCheckboxes.length > 0;
+        }
+    });
+
+    // Lưu các salon đã chọn
+    document.querySelector('#saveSelectedSalons').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Lấy tất cả checkbox đã check
+        const checked = Array.from(document.querySelectorAll(
+            '#salonModal tbody input[type="checkbox"]:checked'));
+        const selectedIds = checked.map(cb => cb.value);
+        const selectedNames = checked.map(cb => cb.closest('tr').querySelector('td:nth-child(5)').textContent);
+
+        // Hiển thị lên trang cha
+        document.getElementById('selectedSalons').innerHTML = selectedNames.map((name, i) =>
+            `<div class="salon-item mx-2 my-1 d-inline-flex align-items-center" data-id="${selectedIds[i]}">
+                    <span>${name}</span>
+                    <button type="button" class="btn btn-custom-6c757d btn-sm btn-delete-item ms-1 px-3 py-0 text-white">Xóa</button>
+                </div>`
+        ).join('');
+
+        // Lưu vào hidden input
+        document.getElementById('selectedSalonIds').value = selectedIds.join(',');
+
+        // Đóng modal
+        bootstrap.Modal.getInstance(document.getElementById('salonModal')).hide();
+    });
+
+    // Khi mở lại modal, check các salon đã chọn
+    document.getElementById('salonModal').addEventListener('show.bs.modal', function() {
+        const selectedIds = document.getElementById('selectedSalonIds').value.split(',');
+        const allCheckboxes = document.querySelectorAll('#salonModal tbody input[type="checkbox"]');
+        let checkedCount = 0;
+        allCheckboxes.forEach(cb => {
+            cb.checked = selectedIds.includes(cb.value);
+            if (cb.checked) checkedCount++;
+        });
+        document.getElementById('selectAll').checked = allCheckboxes.length === checkedCount && allCheckboxes
+            .length > 0;
+    });
+
+    // Tự động hiển thị salon đã chọn lên trang cha khi load trang
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectedIds = document.getElementById('selectedSalonIds').value.split(',').filter(id => id);
+        if (selectedIds.length > 0) {
+            const salonRows = Array.from(document.querySelectorAll('#salonModal tbody tr'));
+            const selectedNames = [];
+            selectedIds.forEach(id => {
+                const row = salonRows.find(tr => {
+                    const cb = tr.querySelector('input[type="checkbox"]');
+                    return cb && cb.value === id;
+                });
+                if (row) {
+                    // Lấy tên salon ở cột thứ 5
+                    selectedNames.push(row.querySelector('td:nth-child(5)').textContent);
+                }
+            });
+            document.getElementById('selectedSalons').innerHTML = selectedNames.map((name, i) =>
+                `<div class="salon-item mx-2 my-1 d-inline-flex align-items-center" data-id="${selectedIds[i]}">
+                <span>${name}</span>
+                <button type="button" class="btn btn-custom-6c757d btn-sm btn-delete-item ms-1 px-3 py-0 text-white">Xóa</button>
+            </div>`
+            ).join('');
+        }
+    });
+</script>
