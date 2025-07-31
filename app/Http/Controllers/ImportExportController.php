@@ -170,4 +170,53 @@ class ImportExportController extends Controller
 
         return Response::stream($callback, 200, $headers);
     }
+
+    public function importSalonCsv(Request $request)
+    {
+        $file = $request->file('csv_file');
+        if (!$file) {
+            return back()
+                ->withErrors(['csv_file' => 'Định dạng CSV không hợp lệ!'])
+                ->withInput()
+                ->with('csv_file_name', $request->file('csv_file')->getClientOriginalName());
+        }
+
+        $handle = fopen($file->getRealPath(), 'r');
+        $columns = fgetcsv($handle); // Lấy header
+
+        $requiredColumns = ['ID', 'Số hiệu', 'Phân loại', 'Tên', 'Furigana', 'Địa chỉ', 'Điểm cộng nhuộm', 'Điểm cộng uốn', 'Trạng thái'];
+        if ($columns !== $requiredColumns) {
+            return back()
+                ->withErrors(['csv_file' => 'Định dạng CSV không hợp lệ!'])
+                ->withInput()
+                ->with('csv_file_name', $request->file('csv_file')->getClientOriginalName());
+        }
+
+        while (($row = fgetcsv($handle)) !== false) {
+            $data = array_combine($columns, $row);
+
+            if (
+                $data['Điểm cộng nhuộm'] < 0
+                || $data['Điểm cộng uốn'] < 0
+                || !ctype_digit($data['Điểm cộng nhuộm'])
+                || !ctype_digit($data['Điểm cộng uốn'])
+            ) {
+                return back()
+                    ->withErrors(['csv_file' => 'Điểm thưởng chứa giá trị không hợp lệ!'])
+                    ->withInput()
+                    ->with('csv_file_name', $request->file('csv_file')->getClientOriginalName());
+            }
+
+            $salon = Salon::find($data['ID']);
+            if ($salon) {
+                $salon->update([
+                    'color_plus_point'  => $data['Điểm cộng nhuộm'],
+                    'perm_plus_point'   => $data['Điểm cộng uốn'],
+                ]);
+            }
+        }
+        fclose($handle);
+
+        return back()->with('success', "Cập nhật dữ liệu thành công!");
+    }
 }

@@ -55,7 +55,7 @@ Route::prefix('salons')->controller(SalonController::class)
         Route::get('/export-salon-csv', [ImportExportController::class, 'exportSalonCsv'])->name('exportSalonCsv');
 
         Route::get('/setting-point', 'pointSetting')->name('pointSetting');
-        // Route::post('/points', 'addPoints')->name('addPoints');
+        Route::post('/import-point', [ImportExportController::class, 'importSalonCsv'])->name('importPoint');
 
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
