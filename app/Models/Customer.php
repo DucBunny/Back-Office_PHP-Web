@@ -121,7 +121,7 @@ class Customer extends Model
     protected function filterById($query, $request)
     {
         if ($request->filled('customer_id')) {
-            $query->where('id', $request->customer_id);
+            $query->where('id', 'like', '%' . $request->customer_id . '%');
         }
     }
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SalonController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ConsentController;
+use App\Http\Controllers\ImportExportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,6 +29,8 @@ Route::prefix('customers')->controller(CustomerController::class)
     ->middleware('auth')
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/export-customer-csv', [ImportExportController::class, 'exportCustomerCsv'])->name('exportCustomerCsv');
+        Route::get('/export-point-history-csv', [ImportExportController::class, 'exportPointHistoryCsv'])->name('exportPointHistoryCsv');
 
         Route::get('/{id}/card-create', 'createCard')->name('createCard');
         Route::post('/{id}/card-store', 'storeCard')->name('storeCard');
@@ -49,15 +52,16 @@ Route::prefix('salons')->controller(SalonController::class)
     ->middleware('auth')
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/export-salon-csv', [ImportExportController::class, 'exportSalonCsv'])->name('exportSalonCsv');
 
         Route::get('/setting-point', 'pointSetting')->name('pointSetting');
         // Route::post('/points', 'addPoints')->name('addPoints');
 
-        Route::get('/modal-select', 'modalSelect')->name('modalSelect');
-        Route::patch('/{id}/toggle-status', 'toggleStatus')->name('toggleStatus');
-
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+
+        Route::get('/modal-select', 'modalSelect')->name('modalSelect');
+        Route::patch('/{id}/toggle-status', 'toggleStatus')->name('toggleStatus');
 
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}', 'update')->name('update');
@@ -87,6 +91,7 @@ Route::prefix('consents')->controller(ConsentController::class)
         Route::get('/', 'index')->name('index');
 
         Route::get('/history', 'history')->name('history');
+        Route::get('/export-consent-history-csv', [ImportExportController::class, 'exportConsentHistoryCsv'])->name('exportConsentHistoryCsv');
 
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');

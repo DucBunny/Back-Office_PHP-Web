@@ -54,8 +54,10 @@
             <div class="form-row mb-2 d-flex justify-content-center gap-3">
                 <button type="submit" class="btn text-white btn-custom-11c48a">Tìm
                     kiếm</button>
-                <button type="button" class="btn text-white btn-custom-06c268">Tải
-                    CSV</button>
+
+                <a href="{{ route('consents.exportConsentHistoryCsv', request()->query()) }}"
+                    class="btn text-white btn-custom-06c268">Tải CSV</a>
+
                 <a href="{{ route('consents.history') }}" class="btn text-success btn-outline-success btn-custom-e6f9f3">Xóa
                     điều kiện</a>
             </div>

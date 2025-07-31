@@ -99,6 +99,70 @@
 </div>
 
 <script>
+    let selectedSalonTempIds = []; // Mảng tạm để lưu các salon đã chọn
+
+    function updateCheckboxes() {
+        const allCheckboxes = document.querySelectorAll('#salonModal tbody input[type="checkbox"]');
+        let checkedCount = 0;
+        allCheckboxes.forEach(cb => {
+            cb.checked = selectedSalonTempIds.includes(cb.value);
+            if (cb.checked) checkedCount++;
+        });
+        document.getElementById('selectAll').checked = allCheckboxes.length === checkedCount && allCheckboxes.length >
+            0;
+    }
+
+    function renderSelectedSalons(ids) {
+        const salonRows = Array.from(document.querySelectorAll('#salonModal tbody tr'));
+        const selectedNames = ids.map(id => {
+            const row = salonRows.find(tr => {
+                const cb = tr.querySelector('input[type="checkbox"]');
+                return cb && cb.value === id;
+            });
+            return row ? row.querySelector('td:nth-child(5)').textContent : '';
+        });
+        document.getElementById('selectedSalons').innerHTML = selectedNames.map((name, i) =>
+            `<div class="salon-item mx-2 my-1 d-inline-flex align-items-center gap-1" data-id="${ids[i]}">
+                <span>${name}</span>
+                <button type="button" class="btn btn-custom-6c757d btn-sm btn-delete-item px-3 py-0 text-white">Xóa</button>
+            </div>`
+        ).join('');
+    }
+
+    // Checkbox Select All
+    document.getElementById('selectAll').addEventListener('change', function() {
+        const checked = this.checked;
+        const allCheckboxes = document.querySelectorAll('#salonModal tbody input[type="checkbox"]');
+        if (checked) {
+            // Check tất cả và thêm vào mảng tạm
+            allCheckboxes.forEach(cb => {
+                cb.checked = true;
+                if (!selectedSalonTempIds.includes(cb.value)) {
+                    selectedSalonTempIds.push(cb.value);
+                }
+            });
+        } else {
+            // Uncheck tất cả và xóa hết mảng tạm
+            allCheckboxes.forEach(cb => {
+                cb.checked = false;
+                selectedSalonTempIds = selectedSalonTempIds.filter(item => item !== cb.value);
+            });
+        }
+    });
+
+    // Check/uncheck checkbox trong modal
+    document.querySelector('#salonModal tbody').addEventListener('change', function(e) {
+        if (e.target.type === 'checkbox') {
+            const id = e.target.value;
+            if (e.target.checked) {
+                if (!selectedSalonTempIds.includes(id)) selectedSalonTempIds.push(id);
+            } else {
+                selectedSalonTempIds = selectedSalonTempIds.filter(item => item !== id);
+            }
+            updateCheckboxes();
+        }
+    });
+
     // Search
     document.getElementById('searchSalonButton').addEventListener('click', function() {
         const code = document.getElementById('salonCode').value;
@@ -108,29 +172,11 @@
         fetch(`/salons/modal-select?salon_code=${code}&type=${type}&name=${name}`)
             .then(res => res.text())
             .then(html => {
-                // Chỉ thay tbody để giữ lại các checkbox đã chọn
-                document.querySelector('#salonModal tbody').innerHTML =
-                    new DOMParser().parseFromString(html, 'text/html').querySelector('tbody').innerHTML;
+                const tbody = document.querySelector('#salonModal tbody');
+                tbody.innerHTML = new DOMParser().parseFromString(html, 'text/html').querySelector('tbody')
+                    .innerHTML;
+                updateCheckboxes();
             });
-    });
-
-    // Checkbox Select All
-    document.getElementById('selectAll').addEventListener('change', function() {
-        const checked = this.checked;
-        document.querySelectorAll('#salonModal tbody input[type="checkbox"]').forEach(cb => {
-            cb.checked = checked;
-        });
-    });
-
-    // Tự động cập nhật trạng thái nút Select All khi check/uncheck từng salon
-    document.querySelector('#salonModal tbody').addEventListener('change', function(e) {
-        if (e.target.type === 'checkbox') {
-            const allCheckboxes = document.querySelectorAll('#salonModal tbody input[type="checkbox"]');
-            const checkedCheckboxes = document.querySelectorAll(
-                '#salonModal tbody input[type="checkbox"]:checked');
-            document.getElementById('selectAll').checked = allCheckboxes.length === checkedCheckboxes.length &&
-                allCheckboxes.length > 0;
-        }
     });
 
     // Lưu các salon đã chọn
@@ -140,15 +186,7 @@
         const checked = Array.from(document.querySelectorAll(
             '#salonModal tbody input[type="checkbox"]:checked'));
         const selectedIds = checked.map(cb => cb.value);
-        const selectedNames = checked.map(cb => cb.closest('tr').querySelector('td:nth-child(5)').textContent);
-
-        // Hiển thị lên trang cha
-        document.getElementById('selectedSalons').innerHTML = selectedNames.map((name, i) =>
-            `<div class="salon-item mx-2 my-1 d-inline-flex align-items-center" data-id="${selectedIds[i]}">
-                    <span>${name}</span>
-                    <button type="button" class="btn btn-custom-6c757d btn-sm btn-delete-item ms-1 px-3 py-0 text-white">Xóa</button>
-                </div>`
-        ).join('');
+        renderSelectedSalons(selectedIds);
 
         // Lưu vào hidden input
         document.getElementById('selectedSalonIds').value = selectedIds.join(',');
@@ -159,39 +197,17 @@
 
     // Khi mở lại modal, check các salon đã chọn
     document.getElementById('salonModal').addEventListener('show.bs.modal', function() {
-        const selectedIds = document.getElementById('selectedSalonIds').value.split(',');
-        const allCheckboxes = document.querySelectorAll('#salonModal tbody input[type="checkbox"]');
-        let checkedCount = 0;
-        allCheckboxes.forEach(cb => {
-            cb.checked = selectedIds.includes(cb.value);
-            if (cb.checked) checkedCount++;
-        });
-        document.getElementById('selectAll').checked = allCheckboxes.length === checkedCount && allCheckboxes
-            .length > 0;
+        const selectedIds = document.getElementById('selectedSalonIds').value.split(',').filter(id => id);
+        // Cập nhật mảng tạm
+        selectedSalonTempIds = [...selectedIds];
+        updateCheckboxes();
     });
 
     // Tự động hiển thị salon đã chọn lên trang cha khi load trang
     document.addEventListener('DOMContentLoaded', function() {
         const selectedIds = document.getElementById('selectedSalonIds').value.split(',').filter(id => id);
         if (selectedIds.length > 0) {
-            const salonRows = Array.from(document.querySelectorAll('#salonModal tbody tr'));
-            const selectedNames = [];
-            selectedIds.forEach(id => {
-                const row = salonRows.find(tr => {
-                    const cb = tr.querySelector('input[type="checkbox"]');
-                    return cb && cb.value === id;
-                });
-                if (row) {
-                    // Lấy tên salon ở cột thứ 5
-                    selectedNames.push(row.querySelector('td:nth-child(5)').textContent);
-                }
-            });
-            document.getElementById('selectedSalons').innerHTML = selectedNames.map((name, i) =>
-                `<div class="salon-item mx-2 my-1 d-inline-flex align-items-center" data-id="${selectedIds[i]}">
-                <span>${name}</span>
-                <button type="button" class="btn btn-custom-6c757d btn-sm btn-delete-item ms-1 px-3 py-0 text-white">Xóa</button>
-            </div>`
-            ).join('');
+            renderSelectedSalons(selectedIds);
         }
     });
 </script>

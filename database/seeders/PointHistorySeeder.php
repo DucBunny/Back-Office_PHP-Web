@@ -21,7 +21,7 @@ class PointHistorySeeder extends Seeder
                     'type'        => 1,
                     'updated_by'  => $card->updated_by,
                     'created_at'  => $card->visit_date,
-                    'updated_at'  => $card->updated_at,
+                    'updated_at'  => $card->visit_date,
                 ];
             }
         }

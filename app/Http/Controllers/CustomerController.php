@@ -23,18 +23,22 @@ class CustomerController extends Controller
     {
         $salonIds = Auth::user()->salon_ids;
 
-        $customerIds = Card::whereIn('salon_id', $salonIds)
-            ->pluck('customer_id')
-            ->unique()
-            ->toArray();
+        if (Auth::user()->id == 2) {
+            $customerIds = Card::whereIn('salon_id', $salonIds)
+                ->pluck('customer_id')
+                ->unique()
+                ->toArray();
+            $withMax = ['cards as last_visit_date' => function ($q) use ($salonIds) {
+                $q->whereIn('salon_id', $salonIds);
+            }];
+        } else {
+            $customerIds = Customer::pluck('id')->toArray();
+            $withMax = ['cards as last_visit_date'];
+        }
 
         $customers = Customer::filter($request)
             ->whereIn('id', $customerIds)
-            ->withMax([
-                'cards as last_visit_date' => function ($q) use ($salonIds) {
-                    $q->whereIn('salon_id', $salonIds);
-                }
-            ], 'visit_date')
+            ->withMax($withMax, 'visit_date')
             ->orderByDesc('last_visit_date')
             ->paginate(10)
             ->withQueryString();

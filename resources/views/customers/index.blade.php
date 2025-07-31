@@ -167,24 +167,30 @@
             </div>
 
             {{-- Action Buttons --}}
-            <div class="form-row mb-2 d-flex justify-content-end gap-3">
-                {{-- Filter --}}
+            <div
+                class="form-row mb-2 d-flex  gap-3 {{ Auth::user()->id == 1 ? 'justify-content-end' : 'justify-content-center' }}">
+                {{-- Search --}}
                 <button type="submit" class="btn text-white btn-custom-11c48a">Tìm
                     kiếm</button>
 
-                <button type="button" class="btn text-white btn-custom-11c48a">Tải
-                    CSV</button>
+                @if (Auth::user()->id == 1)
+                    <a href="{{ route('customers.exportCustomerCsv', request()->query()) }}"
+                        class="btn text-white btn-custom-11c48a">Tải
+                        CSV</a>
 
-                <button type="button" class="btn text-white btn-custom-06c268">Tải lịch
-                    sử điểm</button>
+                    <a href="{{ route('customers.exportPointHistoryCsv', request()->query()) }}"
+                        class="btn text-white btn-custom-06c268">Tải lịch sử điểm</a>
+                @endif
 
                 {{-- Reset --}}
                 <a href="{{ route('customers.index') }}"
                     class="btn text-success btn-outline-success btn-custom-e6f9f3">Xóa
                     điều kiện</a>
 
-                <button type="button" class="btn text-white btn-custom-06c268" style="margin-left: 10rem">Xuất
-                    phân đoạn</button>
+                @if (Auth::user()->id == 1)
+                    <button type="button" class="btn text-white btn-custom-06c268" style="margin-left: 10rem">Xuất
+                        phân đoạn</button>
+                @endif
             </div>
         </div>
     </form>
