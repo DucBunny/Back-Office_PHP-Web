@@ -16,7 +16,7 @@
     @if (session('success'))
         <div id="alert-success"
             class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
-            style="z-index: 9999; min-width: 300px;">
+            style="z-index: 9999; min-width: 300px">
             {{ session('success') }}
         </div>
     @endif
@@ -46,45 +46,48 @@
     @else
         <div class="mt-4">
             {{-- Results Table --}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="fw-medium col-4">Tiêu đề</th>
-                        <th scope="col" class="fw-medium col-3">Trạng thái công khai</th>
-                        <th scope="col" class="fw-medium col-3">Ngày đăng ký</th>
-                        <th scope="col" class="fw-medium col-2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($consents as $consent)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td scope="row" class="align-middle">
-                                {{ $consent->title }}
-                            </td>
-                            <td class="align-middle">
-                                <button type="button"
-                                    class="w-50 btn btn-sm fw-bold text-white {{ $consent->status ? 'btn-custom-06c268' : 'btn-custom-6c757d' }}"
-                                    data-bs-toggle="modal" data-bs-target="#changeStatusModal"
-                                    data-consent-id="{{ $consent->id }}" data-status="{{ $consent->status }}">
-                                    {{ $consent->status ? 'Công khai' : 'Riêng tư' }}
-                                </button>
-                            </td>
-                            <td class="align-middle">
-                                {{ $consent->date->format('d/m/Y') }}
-                            </td>
-                            <td class="text-end align-middle">
-                                {{-- Show --}}
-                                <a href="{{ route('consents.show', $consent->id) }}"
-                                    class="col-4 btn btn-sm fw-bold border btn-custom-white">Xem</a>
-                            </td>
+                            <th scope="col" class="fw-medium col-4" style="min-width: 150px">Tiêu đề</th>
+                            <th scope="col" class="fw-medium col-3" style="min-width: 105px">Trạng thái</th>
+                            <th scope="col" class="fw-medium col-3" style="min-width: 120px">Ngày đăng ký</th>
+                            <th scope="col" class="fw-medium col-2" style="min-width: 100px"></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($consents as $consent)
+                            <tr>
+                                <td scope="row" class="align-middle">
+                                    {{ $consent->title }}
+                                </td>
+                                <td class="align-middle">
+                                    <button type="button"
+                                        class="w-50 btn btn-sm fw-bold text-white {{ $consent->status ? 'btn-custom-06c268' : 'btn-custom-6c757d' }}"
+                                        style="min-width: 90px" data-bs-toggle="modal" data-bs-target="#changeStatusModal"
+                                        data-consent-id="{{ $consent->id }}" data-status="{{ $consent->status }}">
+                                        {{ $consent->status ? 'Công khai' : 'Riêng tư' }}
+                                    </button>
+                                </td>
+                                <td class="align-middle">
+                                    {{ $consent->date->format('d/m/Y') }}
+                                </td>
+                                <td class="text-end align-middle">
+                                    {{-- Show --}}
+                                    <a href="{{ route('consents.show', $consent->id) }}"
+                                        class="col-4 btn btn-sm fw-bold border btn-custom-white"
+                                        style="min-width: 80px">Xem</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{-- Pagination --}}
             <div class="d-flex justify-content-center my-3 gap-2">
-                <ul class="pagination">
+                <ul class="pagination flex-wrap justify-content-center">
                     <li class="page-item @if ($consents->onFirstPage()) disabled @endif">
                         <a class="page-link" href="{{ $consents->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true" class="text-muted">&lsaquo;</span>

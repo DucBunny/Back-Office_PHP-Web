@@ -11,7 +11,7 @@
     @if (session('success'))
         <div id="alert-success"
             class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
-            style="z-index: 9999; min-width: 300px;">
+            style="z-index: 9999; min-width: 300px">
             {{ session('success') }}
         </div>
     @endif
@@ -79,82 +79,88 @@
     @else
         <div class="mt-2">
             {{-- Results Table --}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="fw-medium" style="width: 3%">ID</th>
-                        <th scope="col" class="fw-medium" style="width: 9%">Số hiệu</th>
-                        <th scope="col" class="fw-medium" style="width: 9%">Phân loại</th>
-                        <th scope="col" class="fw-medium" style="width: 9.5%">Tên</th>
-                        <th scope="col" class="fw-medium" style="width: 9.5%">Furigana</th>
-                        <th scope="col" class="fw-medium" style="width: 15%">Địa chỉ</th>
-                        <th scope="col" class="fw-medium" style="width: 9.2%">Điểm cộng (Nhuộm tóc)</th>
-                        <th scope="col" class="fw-medium" style="width: 8.8%">Điểm cộng (Uốn tóc)</th>
-                        <th scope="col" class="fw-medium" style="width: 9%">Trạng thái</th>
-                        <th scope="col" class="fw-medium" style="width: 9%"></th>
-                        <th scope="col" class="fw-medium" style="width: 9%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($salons as $salon)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td scope="row" class="align-middle">
-                                {{ $salon->id }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $salon->salon_code }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $salon->type == 1 ? 'Cắt tóc' : 'Tạo kiểu' }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $salon->name }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $salon->furigana }}
-                            </td>
-                            <td class="align-middle text-truncate">
-                                {{ $salon->address }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $salon->color_plus_point }}pt
-                            </td>
-                            <td class="align-middle">
-                                {{ $salon->perm_plus_point }}pt
-                            </td>
-                            <td class="text-center align-middle">
-                                <button type="button"
-                                    class="w-100 btn btn-sm fw-bold text-white {{ $salon->status ? 'btn-custom-06c268' : 'btn-custom-6c757d' }}"
-                                    data-bs-toggle="modal" data-bs-target="#changeStatusModal"
-                                    data-salon-id="{{ $salon->id }}" data-status="{{ $salon->status }}">
-                                    {{ $salon->status ? 'Công khai' : 'Riêng tư' }}
-                                </button>
-                            </td>
-                            <td class="text-center align-middle">
-                                {{-- Edit --}}
-                                <a href="{{ route('salons.edit', $salon->id) }}"
-                                    class="w-100 btn btn-sm fw-bold border btn-custom-white">Sửa</a>
-                            </td>
-                            <td class="text-center align-middle">
-                                {{-- Delete --}}
-                                <form action="{{ route('salons.destroy', $salon->id) }}" method="POST"
-                                    name="deleteForm">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="button"
-                                        class="w-100 btn btn-sm fw-bold text-danger w-100 btn-delete-confirm btn-custom-f2aa84"
-                                        data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</button>
-                                </form>
-                            </td>
+                            <th scope="col" class="fw-medium" style="width: 3%">ID</th>
+                            <th scope="col" class="fw-medium" style="width: 9%; min-width: 70px">Số hiệu</th>
+                            <th scope="col" class="fw-medium" style="width: 9%; min-width: 85px">Phân loại</th>
+                            <th scope="col" class="fw-medium" style="width: 9.5%; min-width: 150px">Tên</th>
+                            <th scope="col" class="fw-medium" style="width: 9.5%; min-width: 150px">Furigana</th>
+                            <th scope="col" class="fw-medium" style="width: 15%; min-width: 200px">Địa chỉ</th>
+                            <th scope="col" class="fw-medium" style="width: 9.2%; min-width: 110px">Điểm cộng (Nhuộm tóc)
+                            </th>
+                            <th scope="col" class="fw-medium" style="width: 8.8%; min-width: 95px">Điểm cộng (Uốn tóc)
+                            </th>
+                            <th scope="col" class="fw-medium" style="width: 9%; min-width: 105px">Trạng thái</th>
+                            <th scope="col" class="fw-medium" style="width: 9%"></th>
+                            <th scope="col" class="fw-medium" style="width: 9%"></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($salons as $salon)
+                            <tr>
+                                <td scope="row" class="align-middle">
+                                    {{ $salon->id }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $salon->salon_code }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $salon->type == 1 ? 'Cắt tóc' : 'Tạo kiểu' }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $salon->name }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $salon->furigana }}
+                                </td>
+                                <td class="align-middle text-truncate">
+                                    {{ $salon->address }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $salon->color_plus_point }}pt
+                                </td>
+                                <td class="align-middle">
+                                    {{ $salon->perm_plus_point }}pt
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button type="button"
+                                        class="w-100 btn btn-sm fw-bold text-white {{ $salon->status ? 'btn-custom-06c268' : 'btn-custom-6c757d' }}"
+                                        data-bs-toggle="modal" data-bs-target="#changeStatusModal"
+                                        data-salon-id="{{ $salon->id }}" data-status="{{ $salon->status }}">
+                                        {{ $salon->status ? 'Công khai' : 'Riêng tư' }}
+                                    </button>
+                                </td>
+                                <td class="text-center align-middle">
+                                    {{-- Edit --}}
+                                    <a href="{{ route('salons.edit', $salon->id) }}"
+                                        class="w-100 btn btn-sm fw-bold border btn-custom-white"
+                                        style="min-width: 80px">Sửa</a>
+                                </td>
+                                <td class="text-center align-middle">
+                                    {{-- Delete --}}
+                                    <form action="{{ route('salons.destroy', $salon->id) }}" method="POST"
+                                        name="deleteForm">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="button"
+                                            class="w-100 btn btn-sm fw-bold text-danger w-100 btn-delete-confirm btn-custom-f2aa84"
+                                            style="min-width: 80px" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal">Xóa</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{-- Pagination --}}
             <div class="d-flex justify-content-center my-3 gap-2">
-                <ul class="pagination">
+                <ul class="pagination flex-wrap justify-content-center">
                     <li class="page-item @if ($salons->onFirstPage()) disabled @endif">
                         <a class="page-link" href="{{ $salons->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true" class="text-muted">&lsaquo;</span>

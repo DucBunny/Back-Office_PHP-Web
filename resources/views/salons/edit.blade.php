@@ -18,8 +18,8 @@
                     <label class="form-label m-0" for="salonCode">Mã cửa hàng</label>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div class="ps-3 col-md-2">
-                    <input type="text" class="form-control" name="salon_code" id="salonCode"
+                <div class="ps-3 col-2">
+                    <input type="text" class="form-control" style="min-width: 200px" name="salon_code" id="salonCode"
                         value="{{ old('salon_code', $salon->salon_code) }}" />
                 </div>
 
@@ -80,9 +80,9 @@
                     <label for="colorPoint" class="form-label m-0">Điểm thưởng (Nhuộm tóc)</label>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div class="ps-3 col-md-1 d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm" name="color_plus_point" id="colorPoint"
-                        min="0" value="{{ old('color_plus_point', $salon->color_plus_point) }}" />
+                <div class="ps-3 d-flex align-items-center">
+                    <input type="number" class="form-control form-control-sm" style="width: 80px" name="color_plus_point"
+                        id="colorPoint" min="0" value="{{ old('color_plus_point', $salon->color_plus_point) }}" />
                     <span class="ps-2">pt</span>
                 </div>
             </div>
@@ -92,9 +92,9 @@
                     <label for="permPoint" class="form-label m-0">Điểm thưởng (Uốn tóc)</label>
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
-                <div class="ps-3 col-md-1 d-flex align-items-center">
-                    <input type="number" class="form-control form-control-sm" name="perm_plus_point" id="permPoint"
-                        min="0" value="{{ old('perm_plus_point', $salon->perm_plus_point) }}" />
+                <div class="ps-3 d-flex align-items-center">
+                    <input type="number" class="form-control form-control-sm" style="width: 80px" name="perm_plus_point"
+                        id="permPoint" min="0" value="{{ old('perm_plus_point', $salon->perm_plus_point) }}" />
                     <span class="ps-2">pt</span>
                 </div>
             </div>
@@ -120,12 +120,11 @@
         {{-- Action Buttons --}}
         <div class="d-flex justify-content-center gap-3 p-4">
             {{-- Back --}}
-            <a href="{{ route('salons.index') }}"
-                class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">
-                Quay lại</a>
+            <a href="{{ route('salons.index') }}" class="btn py-2 text-success btn-outline-success btn-custom-e6f9f3"
+                style="min-width: 100px">Quay lại</a>
 
             {{-- Update --}}
-            <button class="btn col-1 py-2 text-white btn-custom-11c48a" type="submit">Lưu</button>
+            <button type="submit" class="btn py-2 text-white btn-custom-11c48a" style="min-width: 100px">Lưu</button>
         </div>
     </form>
 @endsection

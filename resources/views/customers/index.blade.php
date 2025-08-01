@@ -13,7 +13,7 @@
     @if (session('success'))
         <div id="alert-success"
             class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
-            style="z-index: 9999; min-width: 300px;">
+            style="z-index: 9999; min-width: 300px">
             {{ session('success') }}
         </div>
     @endif
@@ -120,12 +120,12 @@
             <div class="form-group mb-3">
                 <p class="form-label">Số lần đã đến</p>
                 <div class="ps-3 d-flex align-items-center gap-2">
-                    <div class="col-md-1 ">
+                    <div class="col-md-1 col-sm-2">
                         <input type="number" class="form-control" name="min" id="min" min="0"
                             value="{{ request('min') }}" />
                     </div>
                     <span>&#x2053;</span>
-                    <div class="col-md-1">
+                    <div class="col-md-1 col-sm-2">
                         <input type="number" class="form-control" name="max" id="max" min="0"
                             value="{{ request('max') }}" />
                     </div>
@@ -135,12 +135,10 @@
             <div class="form-group mb-3">
                 <div class="form-row d-flex align-items-center gap-3">
                     <p class="form-label m-0">Cửa hàng đã đến thăm</p>
-                    <div class="col-md-9">
-                        <button class="btn text-white col-md-3 btn-custom-06c268" type="button" id="salonModal"
-                            data-bs-toggle="modal" data-bs-target="#salonModal">
-                            Chọn
-                        </button>
-                    </div>
+                    <button class="btn btn-sm text-white px-5 btn-custom-06c268" type="button" id="salonModal"
+                        data-bs-toggle="modal" data-bs-target="#salonModal">
+                        Chọn
+                    </button>
                 </div>
 
                 <div id="selectedSalons" class="mt-2"></div>
@@ -149,7 +147,7 @@
 
             <div class="form-group mb-3">
                 <p class="form-label">Thời gian đã đến</p>
-                <div class="ps-3 d-flex align-items-center gap-2">
+                <div class="ps-3 d-md-flex align-items-center gap-2">
                     <div class="col-md-3 position-relative" id="datepicker-start-container">
                         <input type="text" class="form-control" name="visit_start" id="datepicker-start"
                             style="padding-left: 30px" placeholder="DD/MM/YYYY" value="{{ request('visit_start') }}" />
@@ -167,30 +165,35 @@
             </div>
 
             {{-- Action Buttons --}}
-            <div
-                class="form-row mb-2 d-flex  gap-3 {{ Auth::user()->id == 1 ? 'justify-content-end' : 'justify-content-center' }}">
-                {{-- Search --}}
-                <button type="submit" class="btn text-white btn-custom-11c48a">Tìm
-                    kiếm</button>
+            <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
+                <div class="d-md-block {{ Auth::user()->id == 1 ? 'd-none' : 'd-block' }}"></div>
+                <div
+                    class="form-row d-flex flex-wrap gap-2 {{ Auth::user()->id == 1 ? 'justify-content-start' : 'justify-content-center' }}">
+                    {{-- Search --}}
+                    <button type="submit" class="btn text-white btn-custom-11c48a" style="white-space: nowrap">Tìm
+                        kiếm</button>
 
-                @if (Auth::user()->id == 1)
-                    <a href="{{ route('customers.exportCustomerCsv', request()->query()) }}"
-                        class="btn text-white btn-custom-11c48a">Tải
-                        CSV</a>
+                    @if (Auth::user()->id == 1)
+                        <a href="{{ route('customers.exportCustomerCsv', request()->query()) }}"
+                            class="btn text-white btn-custom-11c48a" style="white-space: nowrap">Tải
+                            CSV</a>
 
-                    <a href="{{ route('customers.exportPointHistoryCsv', request()->query()) }}"
-                        class="btn text-white btn-custom-06c268">Tải lịch sử điểm</a>
-                @endif
+                        <a href="{{ route('customers.exportPointHistoryCsv', request()->query()) }}"
+                            class="btn text-white btn-custom-06c268" style="white-space: nowrap">Tải lịch sử điểm</a>
+                    @endif
 
-                {{-- Reset --}}
-                <a href="{{ route('customers.index') }}"
-                    class="btn text-success btn-outline-success btn-custom-e6f9f3">Xóa
-                    điều kiện</a>
-
-                @if (Auth::user()->id == 1)
-                    <button type="button" class="btn text-white btn-custom-06c268" style="margin-left: 10rem">Xuất
-                        phân đoạn</button>
-                @endif
+                    {{-- Reset --}}
+                    <a href="{{ route('customers.index') }}"
+                        class="btn text-success btn-outline-success btn-custom-e6f9f3" style="white-space: nowrap">Xóa
+                        điều kiện</a>
+                </div>
+                <div>
+                    {{-- Export Segment Button --}}
+                    @if (Auth::user()->id == 1)
+                        <button type="button" class="btn text-white btn-custom-06c268" style="white-space: nowrap">Xuất
+                            phân đoạn</button>
+                    @endif
+                </div>
             </div>
         </div>
     </form>
@@ -202,55 +205,62 @@
     @else
         <div class="mt-4">
             {{-- Results Table --}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="fw-medium col-2">ID thành viên</th>
-                        <th scope="col" class="fw-medium col-3">Cửa hàng đã thăm gần nhất</th>
-                        <th scope="col" class="fw-medium col-3">Ngày tới gần nhất</th>
-                        <th scope="col" class="fw-medium col-4"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($customers as $customer)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td scope="row" class="align-middle">
-                                {{ $customer->id }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $customer->last_salon_name ? $customer->last_salon_name : '' }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $customer->last_visit_date ? $customer->last_visit_date->format('d/m/Y') : '' }}
-                            </td>
-                            <td class="d-flex justify-content-end gap-2">
-                                {{-- Edit --}}
-                                <a href="{{ route('customers.edit', $customer->id) }}"
-                                    class="col-3 btn btn-sm fw-bold border btn-custom-white">Duyệt</a>
-
-                                {{-- Delete --}}
-                                <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
-                                    class="col-3" name="deleteForm">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="button"
-                                        class="btn btn-sm fw-bold text-danger w-100 btn-delete-confirm btn-custom-f2aa84"
-                                        data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</button>
-                                </form>
-
-                                {{-- Points --}}
-                                <a href="{{ route('customers.points', $customer->id) }}"
-                                    class="col-4 btn btn-sm fw-bold text-white btn-custom-06c268">Điểm</a>
-                            </td>
+                            <th scope="col" class="fw-medium col-2" style="min-width: 100px">ID thành viên</th>
+                            <th scope="col" class="fw-medium col-3" style="min-width: 100px">Cửa hàng đã thăm gần nhất
+                            </th>
+                            <th scope="col" class="fw-medium col-3" style="min-width: 100px">Ngày tới gần nhất</th>
+                            <th scope="col" class="fw-medium col-4" style="min-width: 100px"></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($customers as $customer)
+                            <tr>
+                                <td scope="row" class="align-middle">
+                                    {{ $customer->id }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $customer->last_salon_name ? $customer->last_salon_name : '' }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $customer->last_visit_date ? $customer->last_visit_date->format('d/m/Y') : '' }}
+                                </td>
+                                <td class="align-middle">
+                                    <div class="d-flex flex-wrap float-end gap-2">
+                                        {{-- Edit --}}
+                                        <a href="{{ route('customers.edit', $customer->id) }}"
+                                            class="col-3 btn btn-sm fw-bold border btn-custom-white"`
+                                            style="min-width: 80px">Duyệt</a>
+
+                                        {{-- Delete --}}
+                                        <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
+                                            style="min-width: 80px" name="deleteForm">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="button"
+                                                class="btn btn-sm fw-bold text-danger w-100 btn-delete-confirm btn-custom-f2aa84"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</button>
+                                        </form>
+
+                                        {{-- Points --}}
+                                        <a href="{{ route('customers.points', $customer->id) }}"
+                                            class="col-4 btn btn-sm fw-bold text-white btn-custom-06c268"
+                                            style="min-width: 100px">Điểm</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{-- Pagination --}}
             <div class="d-flex justify-content-center my-3 gap-2">
-                <ul class="pagination">
+                <ul class="pagination flex-wrap justify-content-center">
                     <li class="page-item @if ($customers->onFirstPage()) disabled @endif">
                         <a class="page-link" href="{{ $customers->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true" class="text-muted">&lsaquo;</span>

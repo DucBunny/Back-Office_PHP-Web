@@ -24,8 +24,8 @@
 
         <div class="text-center p-4">
             {{-- Back --}}
-            <a href="{{ route('consents.index') }}"
-                class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay lại</a>
+            <a href="{{ route('consents.index') }}" class="btn py-2 text-success btn-outline-success btn-custom-e6f9f3"
+                style="min-width: 100px">Quay lại</a>
         </div>
     </form>
 @endsection

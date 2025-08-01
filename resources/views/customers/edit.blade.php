@@ -11,7 +11,7 @@
     @if (session('success'))
         <div id="alert-success"
             class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
-            style="z-index: 9999; min-width: 300px;">
+            style="z-index: 9999; min-width: 300px">
             {{ session('success') }}
         </div>
     @endif
@@ -75,11 +75,12 @@
             {{-- Action Buttons --}}
             <div class="form-row d-flex justify-content-center gap-3">
                 {{-- Back --}}
-                <a href="{{ route('customers.index') }}"
-                    class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay lại</a>
+                <a href="{{ route('customers.index') }}" class="btn py-2 text-success btn-outline-success btn-custom-e6f9f3"
+                    style="min-width: 100px">Quay
+                    lại</a>
 
                 {{-- Update --}}
-                <button class="btn col-1 py-2 text-white btn-custom-11c48a" type="submit">Lưu</button>
+                <button type="submit" class="btn py-2 text-white btn-custom-11c48a" style="min-width: 100px">Lưu</button>
             </div>
         </div>
 
@@ -93,50 +94,52 @@
     @if (!$cards->isEmpty())
         <div class="mt-3">
             {{-- Card Table --}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="fw-medium col-2">Thời gian</th>
-                        <th scope="col" class="fw-medium col-5">Cửa hàng</th>
-                        <th scope="col" class="fw-medium col-4">Nội dung</th>
-                        <th scope="col" class="fw-medium col-1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($cards as $card)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td scope="row" class="align-middle">
-                                {{ $card->visit_date->format('d/m/Y H:i') }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $card->salon->name }}
-                            </td>
-                            <td class="align-middle" style="max-width: 200px;">
-                                @if ($card->is_cut)
-                                    Cắt
-                                @endif
-                                @if ($card->is_color)
-                                    Nhuộm
-                                @endif
-                                @if ($card->is_perm)
-                                    Uốn
-                                @endif
-                            </td>
-                            <td class="text-center align-middle">
-                                @if (in_array($card->salon_id, Auth::user()->salon_ids))
-                                    {{-- Edit --}}
-                                    <a href="{{ route('customers.editCard', $card->id) }}"
-                                        class="w-100 btn btn-sm fw-bold border btn-custom-white">Duyệt</a>
-                                @endif
-                            </td>
+                            <th scope="col" class="fw-medium col-2" style="min-width: 100px">Thời gian</th>
+                            <th scope="col" class="fw-medium col-5" style="min-width: 100px">Cửa hàng</th>
+                            <th scope="col" class="fw-medium col-4" style="min-width: 100px">Nội dung</th>
+                            <th scope="col" class="fw-medium col-1" style="min-width: 100px"></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($cards as $card)
+                            <tr>
+                                <td scope="row" class="align-middle">
+                                    {{ $card->visit_date->format('d/m/Y H:i') }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $card->salon->name }}
+                                </td>
+                                <td class="align-middle" style="max-width: 200px">
+                                    @if ($card->is_cut)
+                                        Cắt
+                                    @endif
+                                    @if ($card->is_color)
+                                        Nhuộm
+                                    @endif
+                                    @if ($card->is_perm)
+                                        Uốn
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle">
+                                    @if (in_array($card->salon_id, Auth::user()->salon_ids))
+                                        {{-- Edit --}}
+                                        <a href="{{ route('customers.editCard', $card->id) }}"
+                                            class="w-100 btn btn-sm fw-bold border btn-custom-white">Duyệt</a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{-- Pagination --}}
             <div class="d-flex justify-content-center my-3 gap-2">
-                <ul class="pagination">
+                <ul class="pagination flex-wrap justify-content-center">
                     <li class="page-item @if ($cards->onFirstPage()) disabled @endif">
                         <a class="page-link" href="{{ $cards->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true" class="text-muted">&lsaquo;</span>

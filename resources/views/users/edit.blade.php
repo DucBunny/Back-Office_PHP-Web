@@ -34,13 +34,10 @@
                 <div class="form-row d-flex align-items-center gap-3">
                     <p class="form-label m-0">Cửa hàng</p>
                     <span class="badge rounded-pill fw-medium" id="salonBadge" style="background-color: #11c48a">必須</span>
-
-                    <div class="col-md-9">
-                        <button class="btn text-white col-md-3 btn-custom-06c268" type="button" id="salonModalBtn"
-                            data-bs-toggle="modal" data-bs-target="#salonModal">
-                            Chọn
-                        </button>
-                    </div>
+                    <button class="btn btn-sm text-white px-5 btn-custom-06c268" type="button" id="salonModalBtn"
+                        data-bs-toggle="modal" data-bs-target="#salonModal">
+                        Chọn
+                    </button>
                 </div>
 
                 <div id="selectedSalons" class="mt-2"></div>
@@ -49,8 +46,9 @@
 
             <div class="form-group mb-3">
                 <label class="form-label" for="deviceCodeSelect">Mã nhận diện thiết bị</label>
-                <div class="ps-3 col-md-2">
-                    <select class="form-select form-control" name="device_code" id="deviceCodeSelect">
+                <div class="ps-3 col-2">
+                    <select class="form-select form-control" style="min-width: 240px" name="device_code"
+                        id="deviceCodeSelect">
                         <option selected class="d-none" value=""></option>
                         @foreach (range('A', 'Z') as $char)
                             <option value="{{ $char }}" {{ old('device_code') == $char ? 'selected' : '' }}>
@@ -123,11 +121,11 @@
         {{-- Action Buttons --}}
         <div class="d-flex justify-content-center gap-3 p-4">
             {{-- Back --}}
-            <a href="{{ route('users.index') }}"
-                class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay lại</a>
+            <a href="{{ route('users.index') }}" class="btn py-2 text-success btn-outline-success btn-custom-e6f9f3"
+                style="min-width: 100px">Quay lại</a>
 
             {{-- Update --}}
-            <button class="btn col-1 py-2 text-white btn-custom-11c48a" type="submit">Lưu</button>
+            <button type="submit" class="btn py-2 text-white btn-custom-11c48a" style="min-width: 100px">Lưu</button>
         </div>
     </form>
 @endsection

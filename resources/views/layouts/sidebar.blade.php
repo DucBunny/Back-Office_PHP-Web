@@ -1,112 +1,78 @@
-<div class="sidebar text-white position-fixed" style="width: 250px; height: 100vh; top: 56px; left: 0; z-index: 1000;">
-    <div class="d-flex flex-column ">
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="border-bottom nav-item px-1 py-2">
-                <a href="{{ route('home') }}" class="nav-link text-black px-3 py-2">
-                    <span class="fs-5">Home</span>
-                </a>
-            </li>
+<div>
+    <div class="sidebar text-white position-fixed" id="sidebar">
+        <div class="d-flex flex-column">
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="border-bottom nav-item">
+                    <a href="{{ route('home') }}" class="nav-link p-3 text-black d-flex">
+                        <span class="fs-5">Home</span>
 
-            <li class="border-bottom nav-item px-1 py-2" style="background-color: #11c48a">
-                <span class="nav-link text-white ps-2 disabled">Quản lý khách hàng</span>
-            </li>
+                        <i class="fa-solid fa-house icon-responsive" style="color: #11c48a"></i>
+                    </a>
+                </li>
 
-            <li class="border-bottom nav-item px-1 py-2">
-                <a href="{{ route('customers.index') }}" {{-- href="#submenu1" --}} {{-- data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu1"> --}}
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
-                    <span>Quản lý khách hàng</span>
-                    <i class="bi bi-chevron-right transition-icon transition-icon"></i>
-                </a>
-                {{-- <ul class="collapse nav" id="submenu1" data-bs-parent="#menu">
-                    <li class="w-100">
-                        <a href="{{ route('customers.index') }}" class="nav-link text-black"
-                            style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Danh sách</span>
-                        </a>
-                    </li>
-                    <li class="w-100">
-                        <a href="{{ route('customers.index') }}" class="nav-link text-black"
-                            style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Thêm mới</span>
-                        </a>
-                    </li>
-                </ul> --}}
-            </li>
+                <li class="border-bottom nav-item item-content" style="background-color: #11c48a">
+                    <a href="#" class="nav-link py-3 text-white ps-2 disabled">
+                        <span>Quản lý khách hàng</span>
+                    </a>
+                </li>
 
-            <li class="border-bottom nav-item px-1 py-2" style="background-color: #11c48a">
-                <span class="nav-link text-white ps-2 disabled">Cài đặt</span>
-            </li>
+                <li class="border-bottom nav-item">
+                    <a href="{{ route('customers.index') }}"
+                        class="nav-link text-black d-flex justify-content-between align-items-center py-3 pe-1 ps-5">
+                        <span>Quản lý khách hàng</span>
+                        <i class="bi bi-chevron-right"></i>
 
-            <li class="border-bottom nav-item px-1 py-2">
-                <a href="{{ route('salons.index') }}" {{-- href="#submenu2" data-bs-toggle="collapse" aria-expanded="false"
-                    aria-controls="submenu2" --}}
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
-                    <span>Quản lý cửa hàng</span>
-                    <i class="bi bi-chevron-right transition-icon"></i>
-                </a>
-                {{-- <ul class="collapse nav" id="submenu2" data-bs-parent="#menu">
-                    <li class="w-100">
-                        <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Danh sách</span>
-                        </a>
-                    </li>
-                    <li class="w-100">
-                        <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Thêm mới</span>
-                        </a>
-                    </li>
-                </ul> --}}
-            </li>
+                        <i class="fa-solid fa-user icon-responsive" style="color: #11c48a"></i>
+                    </a>
+                </li>
 
-            <li class="border-bottom nav-item px-1 py-2">
-                <a href="{{ route('users.index') }}" {{-- href="#submenu3" data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu3" --}}
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
-                    <span>Quản lý tài khoản</span>
-                    <i class="bi bi-chevron-right transition-icon"></i>
-                </a>
-                {{-- <ul class="collapse nav" id="submenu3" data-bs-parent="#menu">
-                    <li class="w-100">
-                        <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Danh sách</span>
-                        </a>
-                    </li>
-                    <li class="w-100">
-                        <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Thêm mới</span>
-                        </a>
-                    </li>
-                </ul> --}}
-            </li>
+                <li class="border-bottom nav-item item-content" style="background-color: #11c48a">
+                    <a href="#" class="nav-link text-white py-3 ps-2 disabled">
+                        <span>Cài đặt</span>
+                    </a>
+                </li>
 
-            <li class="border-bottom nav-item px-1 py-2">
-                <a href="{{ route('consents.index') }}" {{-- href="#submenu4" data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu4" --}}
-                    class="nav-link text-black d-flex justify-content-between align-items-center pe-1 ps-5">
-                    <span>Quản lý thỏa thuận</span>
-                    <i class="bi bi-chevron-right transition-icon"></i>
-                </a>
-                {{-- <ul class="collapse nav" id="submenu4" data-bs-parent="#menu">
-                    <li class="w-100">
-                        <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Danh sách</span>
-                        </a>
-                    </li>
-                    <li class="w-100">
-                        <a href="#" class="nav-link text-black" style="padding-left: 5rem;">
-                            <span class="d-none d-sm-inline">Thêm mới</span>
-                        </a>
-                    </li>
-                </ul> --}}
-            </li>
-        </ul>
+                <li class="border-bottom nav-item">
+                    <a href="{{ route('salons.index') }}"
+                        class="nav-link text-black d-flex justify-content-between align-items-center py-3 pe-1 ps-5">
+                        <span>Quản lý cửa hàng</span>
+                        <i class="bi bi-chevron-right"></i>
+
+                        <i class="fa-solid fa-store icon-responsive" style="color: #11c48a"></i>
+                    </a>
+                </li>
+
+                <li class="border-bottom nav-item">
+                    <a href="{{ route('users.index') }}"
+                        class="nav-link text-black d-flex justify-content-between align-items-center py-3 pe-1 ps-5">
+                        <span>Quản lý tài khoản</span>
+                        <i class="bi bi-chevron-right"></i>
+
+                        <i class="fa-solid fa-users icon-responsive" style="color: #11c48a"></i>
+                    </a>
+                </li>
+
+                <li class="border-bottom nav-item">
+                    <a href="{{ route('consents.index') }}"
+                        class="nav-link text-black d-flex justify-content-between align-items-center py-3 pe-1 ps-5">
+                        <span>Quản lý thỏa thuận</span>
+                        <i class="bi bi-chevron-right"></i>
+
+                        <i class="fa-solid fa-handshake icon-responsive" style="color: #11c48a"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
+
+    <button type="button"
+        class="btn btn-lg btn-custom-11c48a rounded-circle text-white d-md-none d-block position-fixed"
+        style="bottom: 1.5rem; right: 1.5rem; z-index: 9999; min-width: 52px; min-height: 52px" id="sidebarToggle">
+        <i class="fa-solid fa-bars"></i>
+    </button>
 </div>
 
 <style>
-    /* Hiệu ứng xoay icon */
-    .transition-icon {
-        transition: transform 0.5s ease;
-    }
-
     /* Hiệu ứng hover cho nav-link */
     .nav-item {
         transition: all 0.2s ease;
@@ -115,59 +81,92 @@
     .nav-item:hover {
         background-color: rgba(17, 196, 138, 0.1);
     }
+
+    .icon-responsive {
+        display: none;
+    }
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        top: 56px;
+        left: 0;
+        z-index: 1000;
+        background-color: #ffffff;
+    }
+
+    @media (min-width: 768px) and (max-width: 991.9px) {
+        .sidebar {
+            width: 60px;
+        }
+
+        .sidebar span,
+        .sidebar .bi-chevron-right {
+            display: none;
+        }
+
+        .sidebar .nav-link i {
+            margin: auto;
+        }
+
+        .item-content {
+            display: none;
+        }
+
+        .icon-responsive {
+            display: inline-block;
+            padding: 6px 0;
+        }
+
+        .nav-link {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+
+    @media (max-width: 767.9px) {
+        .sidebar {
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+            opacity: 1;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    }
 </style>
 
-{{-- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Lấy tất cả các element có data-bs-toggle="collapse"
-        const collapseElements = document.querySelectorAll('[data-bs-toggle="collapse"]');
-        collapseElements.forEach(function(element) {
-            element.addEventListener('click', function() {
-                const target = this.getAttribute('href') || this.getAttribute('data-bs-target');
-                const targetElement = document.querySelector(target);
-                const icon = this.querySelector('.transition-icon');
-
-                // Toggle aria-expanded
-                const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                this.setAttribute('aria-expanded', !isExpanded);
-
-                // Thêm hiệu ứng xoay cho icon
-                if (icon) {
-                    if (!isExpanded) {
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        icon.style.transform = 'rotate(90deg)';
-                    }
-                }
-            });
+        const btn = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        btn.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            e.stopPropagation();
         });
 
-        // Xử lý event Bootstrap collapse
-        const collapseTargets = document.querySelectorAll('.collapse');
-        collapseTargets.forEach(function(target) {
-            target.addEventListener('show.bs.collapse', function() {
-                const trigger = document.querySelector(
-                    `[href="#${this.id}"], [data-bs-target="#${this.id}"]`);
-                if (trigger) {
-                    trigger.setAttribute('aria-expanded', 'true');
-                    const icon = trigger.querySelector('.transition-icon');
-                    if (icon) {
-                        icon.style.transform = 'rotate(90deg)';
-                    }
+        // Ẩn sidebar khi click ra ngoài (mobile)
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 767.9) {
+                if (!sidebar.contains(e.target) && !btn.contains(e.target) && sidebar.classList
+                    .contains(
+                        'active')) {
+                    sidebar.classList.remove('active');
                 }
-            });
+            }
+        });
 
-            target.addEventListener('hide.bs.collapse', function() {
-                const trigger = document.querySelector(
-                    `[href="#${this.id}"], [data-bs-target="#${this.id}"]`);
-                if (trigger) {
-                    trigger.setAttribute('aria-expanded', 'false');
-                    const icon = trigger.querySelector('.transition-icon');
-                    if (icon) {
-                        icon.style.transform = 'rotate(0deg)';
-                    }
-                }
-            });
+        // Tắt transition khi resize, bật lại sau 300ms
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            sidebar.style.transition = 'none';
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                sidebar.style.transition = '';
+            }, 300);
         });
     });
-</script> --}}
+</script>

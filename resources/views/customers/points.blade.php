@@ -11,7 +11,7 @@
     @if (session('success'))
         <div id="alert-success"
             class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
-            style="z-index: 9999; min-width: 300px;">
+            style="z-index: 9999; min-width: 300px">
             {{ session('success') }}
         </div>
     @endif
@@ -92,7 +92,7 @@
 
             {{-- Pagination --}}
             <div class="d-flex justify-content-center my-3 gap-2">
-                <ul class="pagination">
+                <ul class="pagination flex-wrap justify-content-center">
                     <li class="page-item @if ($point_history->onFirstPage()) disabled @endif">
                         <a class="page-link" href="{{ $point_history->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true" class="text-muted">&lsaquo;</span>

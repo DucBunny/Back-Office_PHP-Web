@@ -18,7 +18,7 @@
     @if (session('success'))
         <div id="alert-success"
             class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
-            style="z-index: 9999; min-width: 300px;">
+            style="z-index: 9999; min-width: 300px">
             {{ session('success') }}
         </div>
     @endif
@@ -28,12 +28,10 @@
             <div class="form-group mb-3">
                 <div class="form-row d-flex align-items-center gap-3">
                     <p class="form-label m-0">Cửa hàng</p>
-                    <div class="dropdown col-md-9">
-                        <button class="btn text-white col-md-3 btn-custom-06c268" type="button" id="salonModal"
-                            data-bs-toggle="modal" data-bs-target="#salonModal">
-                            Chọn
-                        </button>
-                    </div>
+                    <button class="btn btn-sm text-white px-5 btn-custom-06c268" type="button" id="salonModal"
+                        data-bs-toggle="modal" data-bs-target="#salonModal">
+                        Chọn
+                    </button>
                 </div>
 
                 <div id="selectedSalons" class="mt-2"></div>
@@ -56,73 +54,77 @@
     @else
         <div class="mt-4">
             {{-- Results Table --}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="fw-medium" style="width: 25%">Tên cửa hàng</th>
-                        <th scope="col" class="fw-medium" style="width: 12%">Quyền</th>
-                        <th scope="col" class="fw-medium" style="width: 15%">Tên tài khoản</th>
-                        <th scope="col" class="fw-medium" style="width: 12%">ID đăng nhập</th>
-                        <th scope="col" class="fw-medium" style="width: 12%">Mã nhận dạng</th>
-                        <th scope="col" class="fw-medium" style="width: 24%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td scope="row" class="align-middle">
-                                {{ $user->salons()->wherePivot('deleted_at', null)->pluck('name')->join(', ') ?: '-' }}
-                            </td>
-                            <td class="align-middle">
-                                @switch($user->role)
-                                    @case(1)
-                                        Admin
-                                    @break
-
-                                    @case(2)
-                                        Manager
-                                    @break
-
-                                    @default
-                                        Staff
-                                @endswitch
-                            </td>
-                            <td class="align-middle">
-                                {{ $user->name }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $user->login_id }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $user->device_code ?? '-' }}
-                            </td>
-                            <td class="align-middle">
-                                <div class="d-flex justify-content-center gap-2">
-                                    {{-- Edit --}}
-                                    <a href="{{ route('users.edit', $user->id) }}"
-                                        class="col-4 btn btn-sm fw-bold border btn-custom-white">Sửa</a>
-
-                                    {{-- Delete --}}
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="col-4"
-                                        name="deleteForm">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="button"
-                                            class="w-100 btn btn-sm fw-bold text-danger w-100 btn-delete-confirm btn-custom-f2aa84"
-                                            data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</button>
-                                    </form>
-                                </div>
-
-                            </td>
+                            <th scope="col" class="fw-medium" style="width: 25%; min-width: 150px">Tên cửa hàng</th>
+                            <th scope="col" class="fw-medium" style="width: 12%; min-width: 80px;">Quyền</th>
+                            <th scope="col" class="fw-medium" style="width: 15%; min-width: 120px;">Tên tài khoản</th>
+                            <th scope="col" class="fw-medium" style="width: 12%; min-width: 120px;">ID đăng nhập</th>
+                            <th scope="col" class="fw-medium" style="width: 12%; min-width: 125px;">Mã nhận dạng</th>
+                            <th scope="col" class="fw-medium" style="width: 24%; min-width: 100px;"></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                            <tr>
+                                <td scope="row" class="align-middle">
+                                    {{ $user->salons()->wherePivot('deleted_at', null)->pluck('name')->join(', ') ?: '-' }}
+                                </td>
+                                <td class="align-middle">
+                                    @switch($user->role)
+                                        @case(1)
+                                            Admin
+                                        @break
+
+                                        @case(2)
+                                            Manager
+                                        @break
+
+                                        @default
+                                            Staff
+                                    @endswitch
+                                </td>
+                                <td class="align-middle">
+                                    {{ $user->name }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $user->login_id }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $user->device_code ?? '-' }}
+                                </td>
+                                <td class="align-middle">
+                                    <div class="d-flex flex-wrap float-end gap-2">
+                                        {{-- Edit --}}
+                                        <a href="{{ route('users.edit', $user->id) }}"
+                                            class="col-4 btn btn-sm fw-bold border btn-custom-white"
+                                            style="min-width: 80px">Sửa</a>
+
+                                        {{-- Delete --}}
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            class="col-4" name="deleteForm">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="button"
+                                                class="w-100 btn btn-sm fw-bold text-danger w-100 btn-delete-confirm btn-custom-f2aa84"
+                                                style="min-width: 80px" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal">Xóa</button>
+                                        </form>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{-- Pagination --}}
             <div class="d-flex justify-content-center my-3 gap-2">
-                <ul class="pagination">
+                <ul class="pagination flex-wrap justify-content-center">
                     <li class="page-item @if ($users->onFirstPage()) disabled @endif">
                         <a class="page-link" href="{{ $users->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true" class="text-muted">&lsaquo;</span>

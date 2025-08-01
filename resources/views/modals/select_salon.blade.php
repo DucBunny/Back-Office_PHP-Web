@@ -9,7 +9,7 @@
             <div class="modal-body">
                 {{-- Search --}}
                 <div class="mb-4 border-bottom pb-4">
-                    <div class="row mb-3">
+                    <div class="row mb-3 align-items-baseline">
                         <div class="col-md-4">
                             <label for="salonCode" class="form-label">Số hiệu cửa hàng</label>
                             <input type="text" class="form-control" id="salonCode">
@@ -45,18 +45,18 @@
                                     <input type="checkbox" id="selectAll" class="form-check-input">
                                 </th>
                                 <th scope="col" style="width: 5%">ID</th>
-                                <th scope="col" style="width: 10%">Số hiệu</th>
-                                <th scope="col" style="width: 10%">Phân loại</th>
-                                <th scope="col" style="width: 15%">Tên</th>
-                                <th scope="col" style="width: 15%">Furigana</th>
-                                <th scope="col" style="width: 30%">Địa chỉ</th>
-                                <th scope="col" style="width: 12%">Trạng thái</th>
+                                <th scope="col" style="width: 10%; min-width: 70px">Số hiệu</th>
+                                <th scope="col" style="width: 10%; min-width: 85px">Phân loại</th>
+                                <th scope="col" style="width: 15%; min-width: 150px">Tên</th>
+                                <th scope="col" style="width: 15%; min-width: 150px">Furigana</th>
+                                <th scope="col" style="width: 30%; min-width: 200px">Địa chỉ</th>
+                                <th scope="col" style="width: 12%; min-width: 90px">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($salons as $salon)
                                 <tr>
-                                    <td scope="row" class="align-middle">
+                                    <td scope="row" class="align-middle" style="position: sticky; left: 0">
                                         <input type="checkbox" class="form-check-input" value="{{ $salon->id }}"
                                             id="salonCheckbox_{{ $salon->id }}">
                                     </td>

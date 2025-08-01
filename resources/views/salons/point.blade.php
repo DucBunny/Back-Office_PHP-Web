@@ -11,7 +11,7 @@
     @if (session('success'))
         <div id="alert-success"
             class="alert alert-success text-success text-center position-fixed top-0 start-50 translate-middle-x mt-3"
-            style="z-index: 9999; min-width: 300px;">
+            style="z-index: 9999; min-width: 300px">
             {{ session('success') }}
         </div>
     @endif
@@ -26,7 +26,7 @@
                     <span class="badge rounded-pill fw-medium" style="background-color: #11c48a">必須</span>
                 </div>
                 <div class="mt-3 ms-4">
-                    <label for="point" class="btn btn-sm text-white btn-custom-11c48a" style="width: 15%">Chọn
+                    <label for="point" class="btn btn-sm text-white btn-custom-11c48a" style="min-width: 120px">Chọn
                         file</label>
                     <input type="file" accept=".csv" class="form-control form-control-sm d-none" name="csv_file"
                         id="point" />
@@ -44,7 +44,8 @@
 
             <div class="text-end mt-3">
                 {{-- Update --}}
-                <button class="btn col-1 py-2 text-white mb-2 btn-custom-06c268" type="submit">Nhập</button>
+                <button type="submit" class="btn py-2 text-white mb-2 btn-custom-06c268"
+                    style="min-width: 100px">Nhập</button>
             </div>
         </div>
     </form>

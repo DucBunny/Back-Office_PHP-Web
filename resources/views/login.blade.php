@@ -11,10 +11,10 @@
 </head>
 
 <body>
-    <section class="vh-100" style="background-color: #f2f3f5;">
+    <section class="vh-100" style="background-color: #f2f3f5">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-md-4">
+                <div class="col-lg-4 col-md-6 col-sm-8">
                     <div class="fs-2 text-center mb-3">Login</div>
                     <form action="{{ route('postLogin') }}" method="POST">
                         @csrf
@@ -27,7 +27,7 @@
                                 </div>
 
                                 <input type="text" name="login_id"
-                                    class="form-control {{ $errors->has('login_id') ? 'is-invalid' : '' }}"
+                                    class="form-control {{ $errors->has('login_id') ? 'border-danger' : '' }}"
                                     id="login_id" value="{{ old('login_id') }}">
                                 @error('login_id')
                                     <div class="text-danger">{{ $message }}</div>
@@ -43,7 +43,7 @@
 
                                 <div class="position-relative">
                                     <input type="password" name="password"
-                                        class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                        class="form-control {{ $errors->has('password') ? 'border-danger' : '' }}"
                                         id="password" value="{{ old('password') }}">
                                     <i class="fa-regular fa-eye-slash position-absolute top-50 translate-middle-y end-0 me-2 text-muted toggle-password"
                                         style="cursor:pointer" data-target="password"></i>

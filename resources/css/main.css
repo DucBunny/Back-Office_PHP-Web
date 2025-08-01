@@ -23,6 +23,18 @@ body {
     min-height: calc(100vh - 56px);
 }
 
+@media (max-width: 991.9px) {
+    .main-content {
+        margin-left: 60px;
+    }
+}
+
+@media (max-width: 767.9px) {
+    .main-content {
+        margin-left: 0;
+    }
+}
+
 .form-label {
     font-weight: 500;
 }

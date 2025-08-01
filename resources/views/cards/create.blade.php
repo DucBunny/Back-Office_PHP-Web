@@ -157,11 +157,11 @@
         <div class="d-flex justify-content-center gap-3 p-4">
             {{-- Back --}}
             <a href="{{ route('customers.edit', $customer->id) }}"
-                class="btn col-1 py-2 text-success btn-outline-success btn-custom-e6f9f3">Quay
+                class="btn py-2 text-success btn-outline-success btn-custom-e6f9f3" style="min-width: 100px">Quay
                 lại</a>
 
             {{-- Update --}}
-            <button type="submit" class="btn col-1 py-2 text-white btn-custom-11c48a">Lưu</button>
+            <button type="submit" class="btn py-2 text-white btn-custom-11c48a" style="min-width: 100px">Lưu</button>
         </div>
     </form>
 @endsection

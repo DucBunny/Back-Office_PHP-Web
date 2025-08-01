@@ -12,7 +12,7 @@
         <div class="p-4 bg-white rounded-3 border border-2">
             <div class="form-group mb-3">
                 <p class="form-label">Thời gian</p>
-                <div class="ps-3 d-flex align-items-center gap-2">
+                <div class="ps-3 d-md-flex align-items-center gap-2">
                     <div class="col-md-3 position-relative">
                         <input type="text" class="form-control" name="date_start" id="datetimepicker-start"
                             style="padding-left: 30px" placeholder="DD/MM/YYYY HH:mm" value="{{ request('date_start') }}" />
@@ -31,8 +31,8 @@
 
             <div class="form-group mb-3">
                 <label class="form-label" for="title">Thỏa thuận đồng ý</label>
-                <div class="ps-3 col-md-2">
-                    <select class="form-select form-control" name="title" id="title">
+                <div class="ps-3 col-2">
+                    <select class="form-select form-control" style="min-width: 200px" name="title" id="title">
                         <option value="" selected class="d-none"></option>
                         @foreach ($consents as $consent)
                             <option value="{{ $consent->title }}"
@@ -71,34 +71,36 @@
     @else
         <div class="mt-5">
             {{-- Results Table --}}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="fw-medium col-4">Thời gian</th>
-                        <th scope="col" class="fw-medium col-5">Thỏa thuận đồng ý</th>
-                        <th scope="col" class="fw-medium col-3">ID thành viên</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($histories as $history)
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td scope="row" class="align-middle">
-                                {{ $history->agreed_at ? \Carbon\Carbon::parse($history->agreed_at)->format('d/m/Y H:i') : '' }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $history->title }}
-                            </td>
-                            <td class="align-middle">
-                                {{ $history->customer_id }}
-                            </td>
+                            <th scope="col" class="fw-medium col-4" style="min-width: 100px">Thời gian</th>
+                            <th scope="col" class="fw-medium col-5" style="min-width: 200px">Thỏa thuận đồng ý</th>
+                            <th scope="col" class="fw-medium col-3" style="min-width: 115px">ID thành viên</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($histories as $history)
+                            <tr>
+                                <td scope="row" class="align-middle">
+                                    {{ $history->agreed_at ? \Carbon\Carbon::parse($history->agreed_at)->format('d/m/Y H:i') : '' }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $history->title }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $history->customer_id }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             {{-- Pagination --}}
             <div class="d-flex justify-content-center my-3 gap-2">
-                <ul class="pagination">
+                <ul class="pagination flex-wrap justify-content-center">
                     <li class="page-item @if ($histories->onFirstPage()) disabled @endif">
                         <a class="page-link" href="{{ $histories->previousPageUrl() }}" aria-label="Previous">
                             <span aria-hidden="true" class="text-muted">&lsaquo;</span>
